@@ -3,9 +3,11 @@
 /*
 NE PAS  ecrire
 #include "pppascal.tab.h"
+
 */
  extern int ligcour;
 %}
+%option nounput noinput
 
 %x COMMENT  
 debcom            "/*"

@@ -7,6 +7,7 @@
  #include "anasem.h"
  #include "interp.h"
  #include "codec3a.h"
+
 /* ------------------VARIABLES GLOBALES -------------------------*/
   NOE syntree;          /* commande  globale                     */
   BILENVTY benvty;      /* environnement global                  */
@@ -229,13 +230,13 @@ L_vartnn: Var Argt                {$$=$2;}
 #include "arbre.h"
 #include "lex.yy.c"
 
-/*  pour tester l'analyse 
+/*  pour tester l'analyse syntaxique 
 int main(int argn, char **argv)
 {yyparse();
-  ecrire_prog(benvty,blfonctions,syntree);
+  ecrire_prog(benvty,syntree);
   return(1);
-}
-*/
+}*/
+
 
 /*  pour tester l'analyse semantique 
 int main(int argn, char **argv)
@@ -271,7 +272,7 @@ int main(int argn, char **argv)
 }*/
 
 
-/*  Produire les quadruplets C3A et les interpreter*/
+/*  Produire les quadruplets C3A 
 int main()
 {
     yyparse();
@@ -280,6 +281,44 @@ int main()
     BILQUAD bq=imp2quad(syntree);
     printf("le code a 3 adresses de la commande: \n");
     ecrire_bilquad(bq);
+ }*/
+
+/* Main principale */
+
+int main()
+{
+    printf("==========analyse syntaxique =========== \n");
+    yyparse();
+    ecrire_prog(benvty,syntree);
+    printf("==========analyse sémantique =========== \n");
+    //ecrire_prog(benvty,syntree);
+    type terr=creer_type(0,T_err);
+    type tcom= creer_type(0,T_com);
+    if (type_eq(syntree->typno,terr))
+      printf("erreur de typage\n");
+    else if (type_eq(syntree->typno,tcom))
+      printf("programme bien type\n");
+    else
+      printf("attention: typage incomplet\n");
+    printf("==========interprétation================ \n");
+    //ecrire_prog(benvty,syntree);
+    //init_memoire();
+    printf("Les variables globales avant exec:\n");
+    printf(":--------------------------------:\n");
+    ecrire_bilenvty(benvty); printf("\n");
+    //ecrire_memoire(5,5,20);
+    semop_gp(benvty,syntree);
+    printf("Les variables globales apres exec:\n");
+    printf(":--------------------------------:\n");
+    ecrire_bilenvty(benvty); printf("\n");
+    //ecrire_memoire(5,5,20);
+    printf("===============Code C3A================= \n");
+    //prefix(syntree);
+    BILQUAD bq=imp2quad(syntree);
+    printf("le code a 3 adresses de la commande: \n");
+    ecrire_bilquad(bq);
+
+    return(1);
  }
 
 int yyerror(s)

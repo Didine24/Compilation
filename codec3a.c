@@ -222,7 +222,6 @@ void ecrire_sep_bilquad(BILQUAD bq)
 /* met a jour l'environnement (var globale)                      */
 BILQUAD imp2quad(NOE ec)
 { extern BILENVTY benvty;
-  ENVTY pos;
   type tint;
   tint=creer_type(0,T_int);
 

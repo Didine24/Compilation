@@ -1,7 +1,7 @@
 #Makefile 
 CC = gcc 
 CPPFLAGS=
-CFLAGS=-g -Wall -std=c99
+CFLAGS=-g -Wall -std=gnu99
 LDFLAGS=-lm 
 FLEX = flex 
 BISON = bison
