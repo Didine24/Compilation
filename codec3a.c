@@ -6,8 +6,8 @@
 #include <string.h>
 #include "arbre.h"
 #include "codec3a.h"
-#include "iimp.tab.h"
-/* iimp.tab.h APRES arbre,h, sinon le type NOE est inconnu de gcc    */
+#include "pppascal.tab.h"
+/* pppascal.tab.h APRES arbre,h, sinon le type NOE est inconnu de gcc    */
 /*-------------------------------------------------------------------*/
 /* ----------------------------types---------------------------------*/
 /* NOE,PILCOM,ENV : definis dans arbre.h                             */
@@ -127,48 +127,6 @@ BILQUAD normal(BILQUAD bq)
 	return(bq);}
 }
 
-/* traduit entier (= codop) vers chaine (= nom operation)  */
-char *nomop(int codop)
-{switch(codop)
-    {case(I):return("I");
-    case(V):return("V");
-    case(Mp): return("Mp");
-    case(Af): return("Af");
-    case(Sk): return("Sk");
-    case(Se): return("Se");
-    case(If): return("If");
-    case(Th): return("Th");
-    case(El): return("El");
-    case(Wh): return("Wh");
-    case(Do): return("Do");
-    case(Pl): return("Pl");
-    case(Mo): return("Mo");
-    case(Mu): return("Mu");
-    case(Afc): return("Afc");
-    case(St): return("St");
-    case(Jp): return("Jp");
-    case(Jz): return("Jz");  
-    case(halt):return("halt");
-    case(nop):return("nop");
-    case(rrmovl): return("rrmovl");
-    case(irmovl): return("irmovl");
-    case(rmmovl): return("rmmovl");
-    case(mrmovl): return("mrmovl");
-    case(addl): return("addl");
-    case(subl): return("subl");
-    case(andl): return("andl");
-    case(xorl): return("xorl");  
-    case(jmp): return("jmp");
-    case(je): return("je");
-    case(jg): return("jg");
-    case(call): return("call");
-    case(ret): return("ret");
-    case(pushl): return("pushl");
-    case(popl): return("popl");           
-    case(0):return("");                   /* code 0: directive assembleur y86 */
-    default:return(NULL);
-    };
-}
 
 /* affiche le quadruplet v1 (pour tests) */
 void ecrire_quad1(QUAD qd)
@@ -263,7 +221,11 @@ void ecrire_sep_bilquad(BILQUAD bq)
 /* traduit une (expression ou commande) en biliste de quadruplets */
 /* met a jour l'environnement (var globale)                      */
 BILQUAD imp2quad(NOE ec)
-{ extern ENV envrnt;
+{ extern BILENVTY benvty;
+  ENVTY pos;
+  type tint;
+  tint=creer_type(0,T_int);
+
   BILQUAD bilq1, bilq2, bilexp, bilres;/* trad de: fg, fd, expression, resultat */
   int newop; char *netiq, *netiqf, *nres;        /* nouveaux ingredients */
   char *narg1=NULL;char  *narg2=NULL; 
@@ -293,7 +255,7 @@ BILQUAD imp2quad(NOE ec)
 	  strcpy(narg2,ec->FD->ETIQ);}
       nres=gensym("VA");
       /* on insere le nom de var dans l'environnement */
-      initenv(&envrnt,nres);
+      inbilenvty(&benvty,nres,tint);
       /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
@@ -307,7 +269,7 @@ BILQUAD imp2quad(NOE ec)
       narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
       narg2=NULL;nres=gensym("CT");
       /* on insere le nom de const dans l' environnement */
-      initenv(&envrnt,nres);
+      inbilenvty(&benvty,nres,tint);
       /* le quadruplet: ETnum, Afc, chaineconst,-, CTnum */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
@@ -418,73 +380,6 @@ BILQUAD imp2quad(NOE ec)
     };
     return(bilres);
 } 
-/*-------------------------------------------------------------------*/	    
-/*-----------------------------semantique de C3A---------------------*/
-
-/* UN petit pas de semantique op de C3A */
-/* fait agir l'instruction  ins sur *rho, renvoie l'instruction suivante */
-/* renvoie NULL si l'instruction est stop */
-QUAD semop_1ppq(ENV *rho, QUAD ins, BILQUAD c3a)
-{ if (ins!=NULL)
-    {int op, val1,val2,res;                  
-      QUAD nins;                                /* instruction suivante */
-      op=ins->OP;
-            switch(op)
-	{case Pl:case Mo:case Mu:/* operation binaire */
-	    val1=valch(*rho,ins->ARG1);val2=valch(*rho,ins->ARG2);
-	    res=eval(op,val1,val2);
-	    initenv(rho,ins->RES);/* ajouter ins->RES dans *rho) */
-	    affect(*rho,ins->RES,res);
-	    nins=ins->SUIV;
-	    break;	    
-	case Af:/* affectation var -> var    */
-	  val2=valch(*rho,ins->ARG2);
-	  /* ajouter ins->ARG1 dans rho: a priori inutile                      */
-	  affect(*rho,ins->ARG1,val2);
-	  nins=ins->SUIV;
-	  break;
-	case Afc:/* affectation const -> var */
-	  val1=atoi(ins->ARG1);
-	  initenv(rho,ins->RES); /* ajouter ins->RES dans rho: a priori inutile  */
-	  affect(*rho,ins->RES,val1);
-	  nins=ins->SUIV;
-	  break;
-	case Sk:/* skip                      */
-	  nins=ins->SUIV;
-	  break;
-	case Jp:/* saut inconditionnel       */
-	  nins=rechbq(ins->RES,c3a);
-	  break;
-	case Jz:/* saut si arg1 == 0        */
-	  val1=valch(*rho,ins->ARG1);
-	   	  if (val1==0)
-	    {nins=rechbq(ins->RES,c3a);
-	    }
-	  else	    
-	    {nins=ins->SUIV;
-	    }
-	   break;
-	case St:/* stop                      */
-	  nins=NULL;
-	  break;
-	default:
-	  break;
-	};
-      return(nins);
-      }
-  else
-    return(NULL);
-}
-
-
-  
-/* semantique op a petits pas: c3a agit sur *rho (qui est modifie)         */
-void semop_ppq(ENV *rho, BILQUAD c3a)
-{QUAD qcour;
-  qcour=c3a.debut;
-  while (qcour != NULL)
-    qcour=semop_1ppq(rho,qcour,c3a);
-  return;}
 
 /* teste la traduction imp --> c3a*/
 void test_tradc3a(int n, NOE c)
@@ -507,6 +402,4 @@ void test_tradc3a(int n, NOE c)
   bq=imp2quad(c);
   printf("le code a 3 adresses de la commande: \n");
   ecrire_bilquad(bq);
-  printf("on interprete le code a 3 adresses: \n");
-  semop_ppq(&envrnt,bq);
 }

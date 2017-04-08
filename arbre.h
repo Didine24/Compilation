@@ -39,6 +39,7 @@ extern ENVTY Envtalloc();    /* retourne un ENVTY                               
 extern type *talloc();       /* retourne un pointeur sur type *                  */
 /*---------------------------------arbres----------------------------------------*/
 extern void prefix(NOE n);   /* ecrit l'expression n en notation prefixe         */
+extern void prefix_code(NOE n);/* codes des operations, en notation prefixe      */
 extern int est_feuille(NOE n);/* 1 si est une feuille, 0 sinon                   */
 /* retourne un NOE pointant vers une cellule qui a ces champs                    */
 extern NOE creer_noe(int ncodop,type ntypno,char *NETIQ,NOE NFG,NOE NFD );       

@@ -6,6 +6,7 @@
  #include "arbre.h"
  #include "anasem.h"
  #include "interp.h"
+ #include "codec3a.h"
 /* ------------------VARIABLES GLOBALES -------------------------*/
   NOE syntree;          /* commande  globale                     */
   BILENVTY benvty;      /* environnement global                  */
@@ -27,7 +28,7 @@
 /* Et: expr tableau; */
 /* TP:TyPe; Argt:argument_type; */
 /* L_vart: Liste_variables_typees L_vartnn: Liste_variables_typee non-nulle */
-%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq
+%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Afc St Jp Jz
 %token <TYP> T_int T_boo T_err T_bot
 
 /* Unités lexicales<NO>: Integer Variable Main_prog                            */
@@ -236,7 +237,7 @@ int main(int argn, char **argv)
 }
 */
 
-/*  pour tester l'analyse semantique */
+/*  pour tester l'analyse semantique 
 int main(int argn, char **argv)
 {yyparse();
   ecrire_prog(benvty,syntree);
@@ -249,7 +250,7 @@ int main(int argn, char **argv)
   else
     printf("attention: typage incomplet");
   return(1);
-}
+}*/
 
 /*  pour tester l'interpreteur 
 int main(int argn, char **argv)
@@ -268,6 +269,18 @@ int main(int argn, char **argv)
   //ecrire_memoire(5,5,20);
   return(1);
 }*/
+
+
+/*  Produire les quadruplets C3A et les interpreter*/
+int main()
+{
+    yyparse();
+    prefix(syntree);
+    printf("\n la commande, avec des codes d'entiers \n");
+    BILQUAD bq=imp2quad(syntree);
+    printf("le code a 3 adresses de la commande: \n");
+    ecrire_bilquad(bq);
+ }
 
 int yyerror(s)
      char *s;

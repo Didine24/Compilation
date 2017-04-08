@@ -205,6 +205,7 @@ int affectty(ENVTY rho, char *var, type tpvar, int val)
 
 /* traduit entier (= codop) vers chaine (= nom operation)  */
 /* utile pour les fonctions d'ecriture */
+/* traduit entier (= codop) vers chaine (= nom operation)  */
 char *nomop(int codop)
 {switch(codop)
     {case(I):return("I");
@@ -231,6 +232,10 @@ char *nomop(int codop)
     case(Pl): return("Pl");
     case(Mo): return("Mo");
     case(Mu): return("Mu");
+    case(Afc): return("Afc");
+    case(St): return("St");
+    case(Jp): return("Jp");
+    case(Jz): return("Jz"); 
     case(And):return("And");
     case(Or): return("Or");
     case(Not): return("Not");
@@ -240,6 +245,7 @@ char *nomop(int codop)
     default: return(NULL);
     };
 }
+
 
 /* ecrit le type */
 void ecrire_type(type tp)

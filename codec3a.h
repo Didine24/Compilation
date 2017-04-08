@@ -29,9 +29,6 @@ extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a       
 extern void test_constantes();     /* teste le generateur de noms de constantes  */
 /*---------------------de-imp-vers-C3A-------------------------------------------*/
 extern BILQUAD imp2quad(NOE ec); /* traduit une commande en quadruplets          */
-/*---------------------semantique de C3A-----------------------------------------*/
-extern QUAD semop_1ppq(ENV *rho, QUAD ins, BILQUAD c3a);  /* Un pt pas de sem op */
-extern void semop_ppq(ENV *rho, BILQUAD c3a);/* semantique op a petits pas       */
 /*---------------------test------------------------------------------------------*/
 extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a        */
 #endif
