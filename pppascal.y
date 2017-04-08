@@ -6,7 +6,6 @@
  #include "arbre.h"
  #include "anasem.h"
  #include "interp.h"
-
 /* ------------------VARIABLES GLOBALES -------------------------*/
   NOE syntree;          /* commande  globale                     */
   BILENVTY benvty;      /* environnement global                  */
@@ -39,8 +38,8 @@
 /* Unités lexicales<TYP>:Type_int Type_bool Type_erreur Type_indefini          */
 
 %%
-MP :  L_vart {benvty=$1;} C            {/* trop tard pour l'analyseur semantique !!*/
-                           syntree=$3;
+MP :  L_vart C            {benvty=$1;/* en fait deja affecte par L_vart */
+                           syntree=$2;
 			   YYACCEPT;}
    ;
 
@@ -214,9 +213,9 @@ TP: T_boo               {$$=$1;}
   ;
 
 /* table des variables  globales  */
-L_vart: %empty           {$$=bilenvty_vide();
+L_vart: %empty           {$$=bilenvty_vide();benvty=$$;
                          }
-| L_vartnn               {$$=$1;}
+| L_vartnn               {$$=$1;benvty=$$;}
 
 ;
 
@@ -237,7 +236,7 @@ int main(int argn, char **argv)
 }
 */
 
-/*  pour tester l'analyse semantique 
+/*  pour tester l'analyse semantique */
 int main(int argn, char **argv)
 {yyparse();
   ecrire_prog(benvty,syntree);
@@ -250,9 +249,9 @@ int main(int argn, char **argv)
   else
     printf("attention: typage incomplet");
   return(1);
-}*/
+}
 
-/*  pour tester l'interpreteur */
+/*  pour tester l'interpreteur 
 int main(int argn, char **argv)
 {//ligcour=0;
   yyparse();
@@ -268,7 +267,7 @@ int main(int argn, char **argv)
   ecrire_bilenvty(benvty); printf("\n");
   //ecrire_memoire(5,5,20);
   return(1);
-}
+}*/
 
 int yyerror(s)
      char *s;
