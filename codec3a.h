@@ -34,4 +34,5 @@ extern BILQUAD imp2quad(NOE ec); /* traduit une commande en quadruplets         
 /*---------------------test------------------------------------------------------*/
 extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a        */
 extern int NameToId(char *etiq);
+extern char* strdup2(char* s1, char* s2);
 #endif
