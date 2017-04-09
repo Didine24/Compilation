@@ -235,6 +235,37 @@ BILQUAD imp2quad(NOE ec)
   switch(ec->codop)
     {/* CAS: ec est une EXPRESSION */
 
+    case And:case Or:
+            /* les ingredients */
+      netiq=gensym("ET");
+      newop=ec->codop;
+      /* les traductions des deux arguments */
+      bilq1=imp2quad(ec->FG);
+      bilq2=imp2quad(ec->FD);
+      /* se simplifie ? */
+      if (ec->FG->codop!=V)
+  {narg1=Idalloc();
+    strcpy(narg1,bilq1.fin->RES);}
+      else
+  {narg1=Idalloc();
+    strcpy(narg1,ec->FG->ETIQ);}
+      if (ec->FD->codop!=V)
+  {narg2=Idalloc();
+    strcpy(narg2,bilq2.fin->RES);}
+      else
+  {narg2=Idalloc();
+    strcpy(narg2,ec->FD->ETIQ);}
+      nres=gensym("VA");
+      /* on insere le nom de var dans l'environnement */
+      inbilenvty(&benvty,nres,tint);
+      /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=creer_bilquad(nquad);
+      /* la suite de quadruplets */
+      bilq2=concatq(bilq1,bilq2);
+      bilres=concatq(bilq2,bilres);
+      break; 
+
     case Not:  
       printf("not \n");            
       netiq=gensym("ET");newop=Not;       
@@ -326,9 +357,6 @@ BILQUAD imp2quad(NOE ec)
             /* assert(ec->FG->codop==V); */
       /* narg1= chaine en lhs */
       narg1=ec->FG->ETIQ;
-      printf("Af\n");
-      printf("FG= %s\n",narg1 );
-      printf("FD= %s\n",ec->FD->ETIQ );
       /* narg2= adresse res du code du rhs */
       bilq2=imp2quad(ec->FD);
             narg2=Idalloc();

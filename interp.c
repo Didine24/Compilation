@@ -68,7 +68,7 @@ int semval(BILENVTY rho_gb,NOE e)
     {ENVTY pos;
       int res,taille;
             switch(e->codop)
-    {
+    {     
      case Ind:
        {int tab=semval(rho_gb,e->FG);        /* adresse du tableau    */
        int ind=semval(rho_gb,e->FD);         /* index dans le tableau */
@@ -78,8 +78,13 @@ int semval(BILENVTY rho_gb,NOE e)
         return(eval(e->codop,semval(rho_gb,e->FG),semval(rho_gb,e->FD)));
     case Not:                                            /* operation unaire      */
       return(eval(e->codop,semval(rho_gb,e->FG),0));
-    case I:                        /* numeral                     */
+    case true: 
+      return 1;
+    case false:
+      return 0;      
+    case I:                         /* numeral                     */
       return (atoi(e->ETIQ));
+
     case V:                         /* variable                   */
       {pos=rechty(e->ETIQ,rho_gb.debut);  
          return(pos->VAL);          /* rho_g(var)                */
