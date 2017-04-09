@@ -394,7 +394,6 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq2,bilres);
       break; 
     case I:
-      printf("int\n");
       /* les ingredients */
       netiq=gensym("ET");newop=Afc;
       narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
@@ -422,23 +421,28 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq1,bilq2);
       break;
     case Af:
-    
-      if(ec->FD->codop==265){ // NewAr
-        matching[padrl]=ec->FG->ETIQ;
+      printf("%s\n", ((ec->FG)->FG)->ETIQ);
+       
+      if(true){
+        if(ec->FD->codop==265){ // NewAr
+          matching[padrl]=ec->FG->ETIQ;
+        }
+        /* les ingredients */
+        netiq=gensym("ET");
+        newop=Af;
+        /* narg1= chaine en lhs */
+        narg1=ec->FG->ETIQ;
+        /* narg2= adresse res du code du rhs */
+        bilq2=imp2quad(ec->FD);
+        narg2=Idalloc();
+        strcpy(narg2,bilq2.fin->RES);
+        nres=NULL;
+        /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
+        nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+        bilres=concatq(bilq2,creer_bilquad(nquad));
+      }else {
+
       }
-      /* les ingredients */
-      netiq=gensym("ET");
-      newop=Af;
-      /* narg1= chaine en lhs */
-      narg1=ec->FG->ETIQ;
-      /* narg2= adresse res du code du rhs */
-      bilq2=imp2quad(ec->FD);
-      narg2=Idalloc();
-      strcpy(narg2,bilq2.fin->RES);
-      nres=NULL;
-      /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
-      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
-      bilres=concatq(bilq2,creer_bilquad(nquad));
       break;
         
         

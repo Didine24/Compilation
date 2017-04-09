@@ -115,7 +115,7 @@ void semop_gp(BILENVTY rho_gb, NOE c)
         semop_gp(rho_gb, c->FG);
         break;
     case Af:
-          if (c->FG->codop==V)        /* affectation a une variable */
+      if (c->FG->codop==V)        /* affectation a une variable */
         {lhs= c->FG->ETIQ;
          printf("lhs vaut %s \n",lhs);
          rhs= semval(rho_gb, c->FD);
