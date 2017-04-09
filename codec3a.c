@@ -16,7 +16,23 @@
 /*-------------------------------------------------------------------*/
 /*---------------------quadruplets-----------------------------------*/
 
+char* strdup2(char* s1, char* s2)
+{
+  assert(s1 != NULL);
+  assert(s2 != NULL);
+  size_t len1 = strlen(s1);
+  size_t len2 = strlen(s2);
+  char* res = malloc(len1 + len2 + 1);
 
+  if (res != NULL)
+  {
+    memcpy(res, s1, len1);
+    memcpy(res + len1, s2, len2);
+    res[len1 + len2] = 0;
+  }
+
+  return res;
+}
 
 
 int NameToId(char *etiq){
@@ -441,7 +457,8 @@ BILQUAD imp2quad(NOE ec)
           // faire l'affictation
           netiq=gensym("ET");
           newop=Af;
-          narg1=strcat(((ec->FG)->FG)->ETIQ, ((ec->FG)->FD)->ETIQ);
+          
+          narg1=strcat(((ec->FG)->FG)->ETIQ,strdup2("[", strdup2(((ec->FG)->FD)->ETIQ,"]")));
           /* narg2= adresse res du code du rhs */
           narg2=Idalloc();
           strcpy(narg2,bilq2.fin->RES);
