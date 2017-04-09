@@ -266,21 +266,26 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq2,bilres);
       break; 
 
-    case Not:  
-      printf("not \n");            
-      netiq=gensym("ET");newop=Not;       
+    case Not:
+      netiq=gensym("ET");
+      newop=ec->codop;
+      /* les traductions des deux arguments */
       bilq1=imp2quad(ec->FG);
+      /* se simplifie ? */
       narg1=Idalloc();
       strcpy(narg1,bilq1.fin->RES);
-      bilq2=imp2quad(ec->FD);
-      narg2=Idalloc();
-      strcpy(narg2,bilq2.fin->RES);
-      nres=NULL;
-      /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
+      nres=gensym("VA");
+      /* on insere le nom de var dans l'environnement */
+      inbilenvty(&benvty,nres,tboo);
+      printf("nres : %s\n",nres);
+      /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
+      narg2 = NULL;
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
-      bilres=concatq(bilq2,creer_bilquad(nquad));
-      break;
-      
+      printf("nres : %s\n",nres);
+      bilres=creer_bilquad(nquad);
+      /* la suite de quadruplets */
+      bilres=concatq(bilq1,bilres);
+      break; 
     case true: case false:
             /* les ingredients */
       netiq=gensym("ET");newop=Afc;
