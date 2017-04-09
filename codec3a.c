@@ -16,6 +16,7 @@
 /*-------------------------------------------------------------------*/
 /*---------------------quadruplets-----------------------------------*/
 
+
 int NameToId(char *etiq){
   for (int i = 0; i < TAILLEADR; i++)
   {
@@ -237,6 +238,7 @@ BILQUAD imp2quad(NOE ec)
   tint=creer_type(0,T_int);
   type tboo;
   tboo=creer_type(0,T_boo);
+  int codop;
 
   BILQUAD bilq1, bilq2, bilexp, bilres;/* trad de: fg, fd, expression, resultat */
   int newop; char *netiq, *netiqf, *nres;        /* nouveaux ingredients */
@@ -265,8 +267,7 @@ BILQUAD imp2quad(NOE ec)
       netiq=gensym("ET");
       int index=NameToId(ec->FG->ETIQ);
       newop=ec->codop;
-      int indice = atoi(ec->FD->ETIQ);
-      
+      int indice = atoi(ec->FD->ETIQ);     
       int val=TAS[ADR[index]+indice];
       narg1=Idalloc();
       sprintf(narg1, "%d",val );
@@ -421,9 +422,37 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq1,bilq2);
       break;
     case Af:
-      printf("%s\n", ((ec->FG)->FG)->ETIQ);
-       
-      if(true){
+      codop=ec->FG->codop;
+      if (codop==271)
+        {
+          printf("Ind\n");
+          printf("%d\n",((ec->FG)->FG)->codop); 
+          int index=NameToId(((ec->FG)->FG)->ETIQ); //indice tableau dans le tas
+          printf("index tab= %d\n",index);
+          // indice de la case c'est : (ec->FG)->FD
+          int indice=atoi(((ec->FG)->FD)->ETIQ);
+          printf("indice case= %d\n",indice);
+          // valeur a affecter c'est : ec->FD
+          bilq2=imp2quad(ec->FD);
+          // TAS[ADR[index]+indice] valeur de la case 
+          int val=TAS[ADR[index]+indice];
+          TAS[ADR[index]+indice]=10; // changer la valeur en dur 
+          printf("val= %d\n",val );
+          // faire l'affictation
+          netiq=gensym("ET");
+          newop=Af;
+          /* narg1= chaine en lhs */
+          narg1=((ec->FG)->FG)->ETIQ;
+          /* narg2= adresse res du code du rhs */
+          narg2=Idalloc();
+          strcpy(narg2,bilq2.fin->RES);
+          nres=NULL;
+          /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
+          nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+          bilres=concatq(bilq2,creer_bilquad(nquad));
+          break;
+        }
+      else{
         if(ec->FD->codop==265){ // NewAr
           matching[padrl]=ec->FG->ETIQ;
         }
@@ -440,8 +469,6 @@ BILQUAD imp2quad(NOE ec)
         /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
         nquad=creer_quad(netiq,newop,narg1,narg2,nres);
         bilres=concatq(bilq2,creer_bilquad(nquad));
-      }else {
-
       }
       break;
         
