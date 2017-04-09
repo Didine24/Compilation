@@ -17,6 +17,8 @@
 /*---------------------quadruplets-----------------------------------*/
 
 
+
+
 int NameToId(char *etiq){
   for (int i = 0; i < TAILLEADR; i++)
   {
@@ -425,24 +427,21 @@ BILQUAD imp2quad(NOE ec)
       codop=ec->FG->codop;
       if (codop==271)
         {
-          printf("Ind\n");
-          printf("%d\n",((ec->FG)->FG)->codop); 
           int index=NameToId(((ec->FG)->FG)->ETIQ); //indice tableau dans le tas
-          printf("index tab= %d\n",index);
           // indice de la case c'est : (ec->FG)->FD
           int indice=atoi(((ec->FG)->FD)->ETIQ);
-          printf("indice case= %d\n",indice);
           // valeur a affecter c'est : ec->FD
           bilq2=imp2quad(ec->FD);
           // TAS[ADR[index]+indice] valeur de la case 
-          int val=TAS[ADR[index]+indice];
-          TAS[ADR[index]+indice]=10; // changer la valeur en dur 
-          printf("val= %d\n",val );
+          if((ec->FD)->codop==258){
+            TAS[ADR[index]+indice]=atoi((ec->FD)->ETIQ); // changer la valeur en dur si c'est une constante 
+          }else{
+            TAS[ADR[index]+indice]=valchty(benvty.debut,(ec->FD)->ETIQ);
+          }  
           // faire l'affictation
           netiq=gensym("ET");
           newop=Af;
-          /* narg1= chaine en lhs */
-          narg1=((ec->FG)->FG)->ETIQ;
+          narg1=strcat(((ec->FG)->FG)->ETIQ, ((ec->FG)->FD)->ETIQ);
           /* narg2= adresse res du code du rhs */
           narg2=Idalloc();
           strcpy(narg2,bilq2.fin->RES);
