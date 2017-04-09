@@ -236,7 +236,7 @@ BILQUAD imp2quad(NOE ec)
     {/* CAS: ec est une EXPRESSION */
 
     case And:case Or:
-            /* les ingredients */
+      /* les ingredients */
       netiq=gensym("ET");
       newop=ec->codop;
       /* les traductions des deux arguments */
@@ -277,15 +277,39 @@ BILQUAD imp2quad(NOE ec)
       nres=gensym("VA");
       /* on insere le nom de var dans l'environnement */
       inbilenvty(&benvty,nres,tboo);
-      printf("nres : %s\n",nres);
       /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
       narg2 = NULL;
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
-      printf("nres : %s\n",nres);
       bilres=creer_bilquad(nquad);
       /* la suite de quadruplets */
       bilres=concatq(bilq1,bilres);
-      break; 
+      break;
+      
+    case Lt:
+      printf("%d\n",ec->codop);
+      netiq=gensym("ET");
+      newop=Lt;
+
+      /* les traductions des deux arguments */
+      bilq1=imp2quad(ec->FG);
+      /* se simplifie ? */
+      narg1=Idalloc();
+      strcpy(narg1,bilq1.fin->RES);
+      bilq2=imp2quad(ec->FD);
+      /* se simplifie ? */
+      narg2=Idalloc();
+      strcpy(narg2,bilq2.fin->RES);
+      nres=gensym("VA");
+      /* on insere le nom de var dans l'environnement */
+      inbilenvty(&benvty,nres,tboo);
+      /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
+      printf("%d\n",ec->codop);
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=creer_bilquad(nquad);
+      /* la suite de quadruplets */
+      bilq2=concatq(bilq1,bilq2);
+      bilres=concatq(bilq2,bilres);
+      break;
     case true: case false:
             /* les ingredients */
       netiq=gensym("ET");newop=Afc;
@@ -348,7 +372,7 @@ BILQUAD imp2quad(NOE ec)
       /* CAS: ec est une COMMANDE */
     case Mp:
       bilq1=imp2quad(ec->FG);
-            /* les ingredients */
+      /* les ingredients */
       netiq=gensym("ET");newop=St;narg1=NULL;narg2=NULL;nres=NULL;
       /* le quadruplet final: stop  (pas d'adresse de resultat) */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
@@ -359,12 +383,11 @@ BILQUAD imp2quad(NOE ec)
       /* les ingredients */
       netiq=gensym("ET");
       newop=Af;
-            /* assert(ec->FG->codop==V); */
       /* narg1= chaine en lhs */
       narg1=ec->FG->ETIQ;
       /* narg2= adresse res du code du rhs */
       bilq2=imp2quad(ec->FD);
-            narg2=Idalloc();
+      narg2=Idalloc();
       strcpy(narg2,bilq2.fin->RES);
       nres=NULL;
       /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
@@ -387,8 +410,8 @@ BILQUAD imp2quad(NOE ec)
       bilexp=imp2quad(ec->FG);    /* traduction de l'expression */
       bilq1=imp2quad(ec->FD->FG); /* commande (cas vrai) */
       bilq2=imp2quad(ec->FD->FD); /* commande (cas faux) */
-            bilq2=normal(bilq2);
-            /* les ingredients de Q1 */
+      bilq2=normal(bilq2);
+      /* les ingredients de Q1 */
       netiq=gensym("ET");newop=Jz;
       narg1=bilexp.fin->RES;
       narg2=NULL;
