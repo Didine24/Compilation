@@ -7,7 +7,7 @@ X1 := 10;
 X2 := new array of integer [10];
 X3 := new array of integer [10];
 X4 := new array of integer [10];
-X1 := X3[0]
+X1 := X4[0]
 
 
 

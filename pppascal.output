@@ -1,4 +1,4 @@
-Terminals unused in grammar
+Terminaux inutilisés dans la grammaire
 
    Def
    Dep
@@ -13,7 +13,7 @@ Terminals unused in grammar
    T_bot
 
 
-Grammar
+Grammaire
 
     0 $accept: MP $end
 
@@ -65,7 +65,7 @@ Grammar
    36         | L_vartnn ',' Var Argt
 
 
-Terminals, with rules where they appear
+Terminaux, suivis des règles où ils apparaissent
 
 $end (0) 0
 '(' (40) 12
@@ -115,36 +115,36 @@ T_err (292)
 T_bot (293)
 
 
-Nonterminals, with rules where they appear
+Non-terminaux, suivis des règles où ils apparaissent
 
 $accept (47)
-    on left: 0
+    à gauche: 0
 MP (48)
-    on left: 1, on right: 0
+    à gauche: 1, à droite: 0
 E (49)
-    on left: 2 3 4 5 6 7, on right: 2 3 4 5 6 12 17 19 20 23 24 27
-    28
+    à gauche: 2 3 4 5 6 7, à droite: 2 3 4 5 6 12 17 19 20 23 24
+    27 28
 T (50)
-    on left: 8 9 10 11, on right: 2 3 4 5 6 7 8 9
+    à gauche: 8 9 10 11, à droite: 2 3 4 5 6 7 8 9
 F (51)
-    on left: 12 13 14 15 16 17 18, on right: 8 9 10 11
+    à gauche: 12 13 14 15 16 17 18, à droite: 8 9 10 11
 Et (52)
-    on left: 19 20, on right: 18 20 23
+    à gauche: 19 20, à droite: 18 20 23
 C (53)
-    on left: 21 22, on right: 1 21 26 27
+    à gauche: 21 22, à droite: 1 21 26 27
 Ca (54)
-    on left: 23 24 25 26 27 28, on right: 21 22 27 28
+    à gauche: 23 24 25 26 27 28, à droite: 21 22 27 28
 Argt (55)
-    on left: 29, on right: 35 36
+    à gauche: 29, à droite: 35 36
 TP (56)
-    on left: 30 31 32, on right: 17 29 32
+    à gauche: 30 31 32, à droite: 17 29 32
 L_vart (57)
-    on left: 33 34, on right: 1
+    à gauche: 33 34, à droite: 1
 L_vartnn (58)
-    on left: 35 36, on right: 34 36
+    à gauche: 35 36, à droite: 34 36
 
 
-State 0
+État 0
 
     0 $accept: . MP $end
     1 MP: . L_vart C
@@ -153,33 +153,33 @@ State 0
    35 L_vartnn: . Var Argt
    36         | . L_vartnn ',' Var Argt
 
-    Var  shift, and go to state 1
+    Var  décalage et aller à l'état 1
 
-    $default  reduce using rule 33 (L_vart)
+    $défaut  réduction par utilisation de la règle 33 (L_vart)
 
-    MP        go to state 2
-    L_vart    go to state 3
-    L_vartnn  go to state 4
+    MP        aller à l'état 2
+    L_vart    aller à l'état 3
+    L_vartnn  aller à l'état 4
 
 
-State 1
+État 1
 
    29 Argt: . V ':' TP
    35 L_vartnn: Var . Argt
 
-    V  shift, and go to state 5
+    V  décalage et aller à l'état 5
 
-    Argt  go to state 6
+    Argt  aller à l'état 6
 
 
-State 2
+État 2
 
     0 $accept: MP . $end
 
-    $end  shift, and go to state 7
+    $end  décalage et aller à l'état 7
 
 
-State 3
+État 3
 
     1 MP: L_vart . C
    19 Et: . V '[' E ']'
@@ -193,65 +193,65 @@ State 3
    27   | . If E Th C El Ca
    28   | . Wh E Do Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    C   go to state 14
-    Ca  go to state 15
+    Et  aller à l'état 13
+    C   aller à l'état 14
+    Ca  aller à l'état 15
 
 
-State 4
+État 4
 
    34 L_vart: L_vartnn .  [V, Sk, If, Wh, '{']
    36 L_vartnn: L_vartnn . ',' Var Argt
 
-    ','  shift, and go to state 16
+    ','  décalage et aller à l'état 16
 
-    $default  reduce using rule 34 (L_vart)
+    $défaut  réduction par utilisation de la règle 34 (L_vart)
 
 
-State 5
+État 5
 
    29 Argt: V . ':' TP
 
-    ':'  shift, and go to state 17
+    ':'  décalage et aller à l'état 17
 
 
-State 6
+État 6
 
    35 L_vartnn: Var Argt .
 
-    $default  reduce using rule 35 (L_vartnn)
+    $défaut  réduction par utilisation de la règle 35 (L_vartnn)
 
 
-State 7
+État 7
 
     0 $accept: MP $end .
 
-    $default  accept
+    $défaut  accepter
 
 
-State 8
+État 8
 
    19 Et: V . '[' E ']'
    24 Ca: V . Af E
 
-    Af   shift, and go to state 18
-    '['  shift, and go to state 19
+    Af   décalage et aller à l'état 18
+    '['  décalage et aller à l'état 19
 
 
-State 9
+État 9
 
    25 Ca: Sk .
 
-    $default  reduce using rule 25 (Ca)
+    $défaut  réduction par utilisation de la règle 25 (Ca)
 
 
-State 10
+État 10
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -274,21 +274,21 @@ State 10
    20   | . Et '[' E ']'
    27 Ca: If . E Th C El Ca
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 27
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 27
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 11
+État 11
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -311,21 +311,21 @@ State 11
    20   | . Et '[' E ']'
    28 Ca: Wh . E Do Ca
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 31
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 31
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 12
+État 12
 
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
@@ -339,65 +339,65 @@ State 12
    27   | . If E Th C El Ca
    28   | . Wh E Do Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    C   go to state 32
-    Ca  go to state 15
+    Et  aller à l'état 13
+    C   aller à l'état 32
+    Ca  aller à l'état 15
 
 
-State 13
+État 13
 
    20 Et: Et . '[' E ']'
    23 Ca: Et . Af E
 
-    Af   shift, and go to state 33
-    '['  shift, and go to state 34
+    Af   décalage et aller à l'état 33
+    '['  décalage et aller à l'état 34
 
 
-State 14
+État 14
 
     1 MP: L_vart C .  [$end]
    21 C: C . Se Ca
 
-    Se  shift, and go to state 35
+    Se  décalage et aller à l'état 35
 
-    $default  reduce using rule 1 (MP)
+    $défaut  réduction par utilisation de la règle 1 (MP)
 
 
-State 15
+État 15
 
    22 C: Ca .
 
-    $default  reduce using rule 22 (C)
+    $défaut  réduction par utilisation de la règle 22 (C)
 
 
-State 16
+État 16
 
    36 L_vartnn: L_vartnn ',' . Var Argt
 
-    Var  shift, and go to state 36
+    Var  décalage et aller à l'état 36
 
 
-State 17
+État 17
 
    29 Argt: V ':' . TP
    30 TP: . T_boo
    31   | . T_int
    32   | . T_ar TP
 
-    T_ar   shift, and go to state 37
-    T_int  shift, and go to state 38
-    T_boo  shift, and go to state 39
+    T_ar   décalage et aller à l'état 37
+    T_int  décalage et aller à l'état 38
+    T_boo  décalage et aller à l'état 39
 
-    TP  go to state 40
+    TP  aller à l'état 40
 
 
-State 18
+État 18
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -420,21 +420,21 @@ State 18
    20   | . Et '[' E ']'
    24 Ca: V Af . E
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 41
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 41
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 19
+État 19
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -457,66 +457,66 @@ State 19
    19   | V '[' . E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 42
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 42
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 20
+État 20
 
    13 F: I .
 
-    $default  reduce using rule 13 (F)
+    $défaut  réduction par utilisation de la règle 13 (F)
 
 
-State 21
+État 21
 
    14 F: V .  [$end, Se, Th, El, Do, Pl, Mo, Mu, And, Or, Lt, Eq, ')', ']', '}']
    19 Et: V . '[' E ']'
 
-    '['  shift, and go to state 19
+    '['  décalage et aller à l'état 19
 
-    $default  reduce using rule 14 (F)
+    $défaut  réduction par utilisation de la règle 14 (F)
 
 
-State 22
+État 22
 
    17 F: NewAr . TP '[' E ']'
    30 TP: . T_boo
    31   | . T_int
    32   | . T_ar TP
 
-    T_ar   shift, and go to state 37
-    T_int  shift, and go to state 38
-    T_boo  shift, and go to state 39
+    T_ar   décalage et aller à l'état 37
+    T_int  décalage et aller à l'état 38
+    T_boo  décalage et aller à l'état 39
 
-    TP  go to state 43
+    TP  aller à l'état 43
 
 
-State 23
+État 23
 
    15 F: true .
 
-    $default  reduce using rule 15 (F)
+    $défaut  réduction par utilisation de la règle 15 (F)
 
 
-State 24
+État 24
 
    16 F: false .
 
-    $default  reduce using rule 16 (F)
+    $défaut  réduction par utilisation de la règle 16 (F)
 
 
-State 25
+État 25
 
    10 T: Not . F
    12 F: . '(' E ')'
@@ -529,18 +529,18 @@ State 25
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    '('    décalage et aller à l'état 26
 
-    F   go to state 44
-    Et  go to state 30
+    F   aller à l'état 44
+    Et  aller à l'état 30
 
 
-State 26
+État 26
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -563,21 +563,21 @@ State 26
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 45
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 45
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 27
+État 27
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -586,44 +586,44 @@ State 27
     6  | E . Eq T
    27 Ca: If E . Th C El Ca
 
-    Th  shift, and go to state 46
-    Pl  shift, and go to state 47
-    Mo  shift, and go to state 48
-    Or  shift, and go to state 49
-    Lt  shift, and go to state 50
-    Eq  shift, and go to state 51
+    Th  décalage et aller à l'état 46
+    Pl  décalage et aller à l'état 47
+    Mo  décalage et aller à l'état 48
+    Or  décalage et aller à l'état 49
+    Lt  décalage et aller à l'état 50
+    Eq  décalage et aller à l'état 51
 
 
-State 28
+État 28
 
     7 E: T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 7 (E)
+    $défaut  réduction par utilisation de la règle 7 (E)
 
 
-State 29
+État 29
 
    11 T: F .
 
-    $default  reduce using rule 11 (T)
+    $défaut  réduction par utilisation de la règle 11 (T)
 
 
-State 30
+État 30
 
    18 F: Et .  [$end, Se, Th, El, Do, Pl, Mo, Mu, And, Or, Lt, Eq, ')', ']', '}']
    20 Et: Et . '[' E ']'
 
-    '['  shift, and go to state 34
+    '['  décalage et aller à l'état 34
 
-    $default  reduce using rule 18 (F)
+    $défaut  réduction par utilisation de la règle 18 (F)
 
 
-State 31
+État 31
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -632,24 +632,24 @@ State 31
     6  | E . Eq T
    28 Ca: Wh E . Do Ca
 
-    Do  shift, and go to state 54
-    Pl  shift, and go to state 47
-    Mo  shift, and go to state 48
-    Or  shift, and go to state 49
-    Lt  shift, and go to state 50
-    Eq  shift, and go to state 51
+    Do  décalage et aller à l'état 54
+    Pl  décalage et aller à l'état 47
+    Mo  décalage et aller à l'état 48
+    Or  décalage et aller à l'état 49
+    Lt  décalage et aller à l'état 50
+    Eq  décalage et aller à l'état 51
 
 
-State 32
+État 32
 
    21 C: C . Se Ca
    26 Ca: '{' C . '}'
 
-    Se   shift, and go to state 35
-    '}'  shift, and go to state 55
+    Se   décalage et aller à l'état 35
+    '}'  décalage et aller à l'état 55
 
 
-State 33
+État 33
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -672,21 +672,21 @@ State 33
    20   | . Et '[' E ']'
    23 Ca: Et Af . E
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 56
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 56
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 34
+État 34
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -709,21 +709,21 @@ State 34
    20   | . Et '[' E ']'
    20   | Et '[' . E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 57
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 57
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 35
+État 35
 
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
@@ -735,62 +735,62 @@ State 35
    27   | . If E Th C El Ca
    28   | . Wh E Do Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    Ca  go to state 58
+    Et  aller à l'état 13
+    Ca  aller à l'état 58
 
 
-State 36
+État 36
 
    29 Argt: . V ':' TP
    36 L_vartnn: L_vartnn ',' Var . Argt
 
-    V  shift, and go to state 5
+    V  décalage et aller à l'état 5
 
-    Argt  go to state 59
+    Argt  aller à l'état 59
 
 
-State 37
+État 37
 
    30 TP: . T_boo
    31   | . T_int
    32   | . T_ar TP
    32   | T_ar . TP
 
-    T_ar   shift, and go to state 37
-    T_int  shift, and go to state 38
-    T_boo  shift, and go to state 39
+    T_ar   décalage et aller à l'état 37
+    T_int  décalage et aller à l'état 38
+    T_boo  décalage et aller à l'état 39
 
-    TP  go to state 60
+    TP  aller à l'état 60
 
 
-State 38
+État 38
 
    31 TP: T_int .
 
-    $default  reduce using rule 31 (TP)
+    $défaut  réduction par utilisation de la règle 31 (TP)
 
 
-State 39
+État 39
 
    30 TP: T_boo .
 
-    $default  reduce using rule 30 (TP)
+    $défaut  réduction par utilisation de la règle 30 (TP)
 
 
-State 40
+État 40
 
    29 Argt: V ':' TP .
 
-    $default  reduce using rule 29 (Argt)
+    $défaut  réduction par utilisation de la règle 29 (Argt)
 
 
-State 41
+État 41
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -799,16 +799,16 @@ State 41
     6  | E . Eq T
    24 Ca: V Af E .  [$end, Se, El, '}']
 
-    Pl  shift, and go to state 47
-    Mo  shift, and go to state 48
-    Or  shift, and go to state 49
-    Lt  shift, and go to state 50
-    Eq  shift, and go to state 51
+    Pl  décalage et aller à l'état 47
+    Mo  décalage et aller à l'état 48
+    Or  décalage et aller à l'état 49
+    Lt  décalage et aller à l'état 50
+    Eq  décalage et aller à l'état 51
 
-    $default  reduce using rule 24 (Ca)
+    $défaut  réduction par utilisation de la règle 24 (Ca)
 
 
-State 42
+État 42
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -817,29 +817,29 @@ State 42
     6  | E . Eq T
    19 Et: V '[' E . ']'
 
-    Pl   shift, and go to state 47
-    Mo   shift, and go to state 48
-    Or   shift, and go to state 49
-    Lt   shift, and go to state 50
-    Eq   shift, and go to state 51
-    ']'  shift, and go to state 61
+    Pl   décalage et aller à l'état 47
+    Mo   décalage et aller à l'état 48
+    Or   décalage et aller à l'état 49
+    Lt   décalage et aller à l'état 50
+    Eq   décalage et aller à l'état 51
+    ']'  décalage et aller à l'état 61
 
 
-State 43
+État 43
 
    17 F: NewAr TP . '[' E ']'
 
-    '['  shift, and go to state 62
+    '['  décalage et aller à l'état 62
 
 
-State 44
+État 44
 
    10 T: Not F .
 
-    $default  reduce using rule 10 (T)
+    $défaut  réduction par utilisation de la règle 10 (T)
 
 
-State 45
+État 45
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -848,15 +848,15 @@ State 45
     6  | E . Eq T
    12 F: '(' E . ')'
 
-    Pl   shift, and go to state 47
-    Mo   shift, and go to state 48
-    Or   shift, and go to state 49
-    Lt   shift, and go to state 50
-    Eq   shift, and go to state 51
-    ')'  shift, and go to state 63
+    Pl   décalage et aller à l'état 47
+    Mo   décalage et aller à l'état 48
+    Or   décalage et aller à l'état 49
+    Lt   décalage et aller à l'état 50
+    Eq   décalage et aller à l'état 51
+    ')'  décalage et aller à l'état 63
 
 
-State 46
+État 46
 
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
@@ -870,18 +870,18 @@ State 46
    27   | If E Th . C El Ca
    28   | . Wh E Do Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    C   go to state 64
-    Ca  go to state 15
+    Et  aller à l'état 13
+    C   aller à l'état 64
+    Ca  aller à l'état 15
 
 
-State 47
+État 47
 
     2 E: E Pl . T
     8 T: . T Mu F
@@ -898,20 +898,20 @@ State 47
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    T   go to state 65
-    F   go to state 29
-    Et  go to state 30
+    T   aller à l'état 65
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 48
+État 48
 
     3 E: E Mo . T
     8 T: . T Mu F
@@ -928,20 +928,20 @@ State 48
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    T   go to state 66
-    F   go to state 29
-    Et  go to state 30
+    T   aller à l'état 66
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 49
+État 49
 
     4 E: E Or . T
     8 T: . T Mu F
@@ -958,20 +958,20 @@ State 49
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    T   go to state 67
-    F   go to state 29
-    Et  go to state 30
+    T   aller à l'état 67
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 50
+État 50
 
     5 E: E Lt . T
     8 T: . T Mu F
@@ -988,20 +988,20 @@ State 50
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    T   go to state 68
-    F   go to state 29
-    Et  go to state 30
+    T   aller à l'état 68
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 51
+État 51
 
     6 E: E Eq . T
     8 T: . T Mu F
@@ -1018,20 +1018,20 @@ State 51
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    T   go to state 69
-    F   go to state 29
-    Et  go to state 30
+    T   aller à l'état 69
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 52
+État 52
 
     8 T: T Mu . F
    12 F: . '(' E ')'
@@ -1044,18 +1044,18 @@ State 52
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    '('    décalage et aller à l'état 26
 
-    F   go to state 70
-    Et  go to state 30
+    F   aller à l'état 70
+    Et  aller à l'état 30
 
 
-State 53
+État 53
 
     9 T: T And . F
    12 F: . '(' E ')'
@@ -1068,18 +1068,18 @@ State 53
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    '('    décalage et aller à l'état 26
 
-    F   go to state 71
-    Et  go to state 30
+    F   aller à l'état 71
+    Et  aller à l'état 30
 
 
-State 54
+État 54
 
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
@@ -1091,24 +1091,24 @@ State 54
    28   | . Wh E Do Ca
    28   | Wh E Do . Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    Ca  go to state 72
+    Et  aller à l'état 13
+    Ca  aller à l'état 72
 
 
-State 55
+État 55
 
    26 Ca: '{' C '}' .
 
-    $default  reduce using rule 26 (Ca)
+    $défaut  réduction par utilisation de la règle 26 (Ca)
 
 
-State 56
+État 56
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -1117,16 +1117,16 @@ State 56
     6  | E . Eq T
    23 Ca: Et Af E .  [$end, Se, El, '}']
 
-    Pl  shift, and go to state 47
-    Mo  shift, and go to state 48
-    Or  shift, and go to state 49
-    Lt  shift, and go to state 50
-    Eq  shift, and go to state 51
+    Pl  décalage et aller à l'état 47
+    Mo  décalage et aller à l'état 48
+    Or  décalage et aller à l'état 49
+    Lt  décalage et aller à l'état 50
+    Eq  décalage et aller à l'état 51
 
-    $default  reduce using rule 23 (Ca)
+    $défaut  réduction par utilisation de la règle 23 (Ca)
 
 
-State 57
+État 57
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -1135,43 +1135,43 @@ State 57
     6  | E . Eq T
    20 Et: Et '[' E . ']'
 
-    Pl   shift, and go to state 47
-    Mo   shift, and go to state 48
-    Or   shift, and go to state 49
-    Lt   shift, and go to state 50
-    Eq   shift, and go to state 51
-    ']'  shift, and go to state 73
+    Pl   décalage et aller à l'état 47
+    Mo   décalage et aller à l'état 48
+    Or   décalage et aller à l'état 49
+    Lt   décalage et aller à l'état 50
+    Eq   décalage et aller à l'état 51
+    ']'  décalage et aller à l'état 73
 
 
-State 58
+État 58
 
    21 C: C Se Ca .
 
-    $default  reduce using rule 21 (C)
+    $défaut  réduction par utilisation de la règle 21 (C)
 
 
-State 59
+État 59
 
    36 L_vartnn: L_vartnn ',' Var Argt .
 
-    $default  reduce using rule 36 (L_vartnn)
+    $défaut  réduction par utilisation de la règle 36 (L_vartnn)
 
 
-State 60
+État 60
 
    32 TP: T_ar TP .
 
-    $default  reduce using rule 32 (TP)
+    $défaut  réduction par utilisation de la règle 32 (TP)
 
 
-State 61
+État 61
 
    19 Et: V '[' E ']' .
 
-    $default  reduce using rule 19 (Et)
+    $défaut  réduction par utilisation de la règle 19 (Et)
 
 
-State 62
+État 62
 
     2 E: . E Pl T
     3  | . E Mo T
@@ -1194,125 +1194,125 @@ State 62
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
 
-    I      shift, and go to state 20
-    V      shift, and go to state 21
-    NewAr  shift, and go to state 22
-    true   shift, and go to state 23
-    false  shift, and go to state 24
-    Not    shift, and go to state 25
-    '('    shift, and go to state 26
+    I      décalage et aller à l'état 20
+    V      décalage et aller à l'état 21
+    NewAr  décalage et aller à l'état 22
+    true   décalage et aller à l'état 23
+    false  décalage et aller à l'état 24
+    Not    décalage et aller à l'état 25
+    '('    décalage et aller à l'état 26
 
-    E   go to state 74
-    T   go to state 28
-    F   go to state 29
-    Et  go to state 30
+    E   aller à l'état 74
+    T   aller à l'état 28
+    F   aller à l'état 29
+    Et  aller à l'état 30
 
 
-State 63
+État 63
 
    12 F: '(' E ')' .
 
-    $default  reduce using rule 12 (F)
+    $défaut  réduction par utilisation de la règle 12 (F)
 
 
-State 64
+État 64
 
    21 C: C . Se Ca
    27 Ca: If E Th C . El Ca
 
-    Se  shift, and go to state 35
-    El  shift, and go to state 75
+    Se  décalage et aller à l'état 35
+    El  décalage et aller à l'état 75
 
 
-State 65
+État 65
 
     2 E: E Pl T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 2 (E)
+    $défaut  réduction par utilisation de la règle 2 (E)
 
 
-State 66
+État 66
 
     3 E: E Mo T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 3 (E)
+    $défaut  réduction par utilisation de la règle 3 (E)
 
 
-State 67
+État 67
 
     4 E: E Or T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 4 (E)
+    $défaut  réduction par utilisation de la règle 4 (E)
 
 
-State 68
+État 68
 
     5 E: E Lt T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 5 (E)
+    $défaut  réduction par utilisation de la règle 5 (E)
 
 
-State 69
+État 69
 
     6 E: E Eq T .  [$end, Se, Th, El, Do, Pl, Mo, Or, Lt, Eq, ')', ']', '}']
     8 T: T . Mu F
     9  | T . And F
 
-    Mu   shift, and go to state 52
-    And  shift, and go to state 53
+    Mu   décalage et aller à l'état 52
+    And  décalage et aller à l'état 53
 
-    $default  reduce using rule 6 (E)
+    $défaut  réduction par utilisation de la règle 6 (E)
 
 
-State 70
+État 70
 
     8 T: T Mu F .
 
-    $default  reduce using rule 8 (T)
+    $défaut  réduction par utilisation de la règle 8 (T)
 
 
-State 71
+État 71
 
     9 T: T And F .
 
-    $default  reduce using rule 9 (T)
+    $défaut  réduction par utilisation de la règle 9 (T)
 
 
-State 72
+État 72
 
    28 Ca: Wh E Do Ca .
 
-    $default  reduce using rule 28 (Ca)
+    $défaut  réduction par utilisation de la règle 28 (Ca)
 
 
-State 73
+État 73
 
    20 Et: Et '[' E ']' .
 
-    $default  reduce using rule 20 (Et)
+    $défaut  réduction par utilisation de la règle 20 (Et)
 
 
-State 74
+État 74
 
     2 E: E . Pl T
     3  | E . Mo T
@@ -1321,15 +1321,15 @@ State 74
     6  | E . Eq T
    17 F: NewAr TP '[' E . ']'
 
-    Pl   shift, and go to state 47
-    Mo   shift, and go to state 48
-    Or   shift, and go to state 49
-    Lt   shift, and go to state 50
-    Eq   shift, and go to state 51
-    ']'  shift, and go to state 76
+    Pl   décalage et aller à l'état 47
+    Mo   décalage et aller à l'état 48
+    Or   décalage et aller à l'état 49
+    Lt   décalage et aller à l'état 50
+    Eq   décalage et aller à l'état 51
+    ']'  décalage et aller à l'état 76
 
 
-State 75
+État 75
 
    19 Et: . V '[' E ']'
    20   | . Et '[' E ']'
@@ -1341,25 +1341,25 @@ State 75
    27   | If E Th C El . Ca
    28   | . Wh E Do Ca
 
-    V    shift, and go to state 8
-    Sk   shift, and go to state 9
-    If   shift, and go to state 10
-    Wh   shift, and go to state 11
-    '{'  shift, and go to state 12
+    V    décalage et aller à l'état 8
+    Sk   décalage et aller à l'état 9
+    If   décalage et aller à l'état 10
+    Wh   décalage et aller à l'état 11
+    '{'  décalage et aller à l'état 12
 
-    Et  go to state 13
-    Ca  go to state 77
+    Et  aller à l'état 13
+    Ca  aller à l'état 77
 
 
-State 76
+État 76
 
    17 F: NewAr TP '[' E ']' .
 
-    $default  reduce using rule 17 (F)
+    $défaut  réduction par utilisation de la règle 17 (F)
 
 
-State 77
+État 77
 
    27 Ca: If E Th C El Ca .
 
-    $default  reduce using rule 27 (Ca)
+    $défaut  réduction par utilisation de la règle 27 (Ca)

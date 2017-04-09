@@ -16,6 +16,16 @@
 /*-------------------------------------------------------------------*/
 /*---------------------quadruplets-----------------------------------*/
 
+int NameToId(char *etiq){
+  for (int i = 0; i < TAILLEADR; i++)
+  {
+    if(strcmp(matching[i],etiq)==0){
+      return i;
+    }
+  }
+  return -1;
+}
+
 /* retourne une nouvelle chaine */
 char *gensym(char *prefix)
 {static int counter=0;
@@ -252,36 +262,20 @@ BILQUAD imp2quad(NOE ec)
       bilres=creer_bilquad(nquad);
       break;
     case Ind:
-      printf("entree Ind\n");
       netiq=gensym("ET");
+      int index=NameToId(ec->FG->ETIQ);
       newop=ec->codop;
-      
       int indice = atoi(ec->FD->ETIQ);
       
-      
+      int val=TAS[ADR[index]+indice];
       narg1=Idalloc();
-      strcpy(narg1,bilq1.fin->RES);
-      printf("narg:%s\n",narg1);
-      int tabl = atoi(narg1);
-      printf("%d\n",tabl);
-      /*rhs=semval(rho_gb, c->FD);
-      TAS[ADR[tabl]+index]=rhs;
-      narg1=Idalloc();
-      
-      
-      
-      
-      sprintf(narg1, "TAB%d", padrl);
-      ADR[padrl]=ptasl;
-      ptasl += atoi(ec->FD->ETIQ);
-      TAL[padrl]=atoi(ec->FD->ETIQ);
-      padrl++;
-      nres=gensym("VA");
+      sprintf(narg1, "%d",val );
       narg2=Idalloc();
-      narg2 = ec->FD->ETIQ;
+      narg2=NULL;
+      nres=gensym("VA");
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
-      bilres=creer_bilquad(nquad);*/
-        break;
+      bilres=creer_bilquad(nquad);
+      break;
         
     case And:case Or:
       /* les ingredients */
@@ -428,7 +422,10 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq1,bilq2);
       break;
     case Af:
-      printf("af\n");
+    
+      if(ec->FD->codop==265){ // NewAr
+        matching[padrl]=ec->FG->ETIQ;
+      }
       /* les ingredients */
       netiq=gensym("ET");
       newop=Af;

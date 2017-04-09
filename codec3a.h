@@ -12,7 +12,9 @@ typedef struct cellquad{
 typedef struct{
   QUAD debut;
   QUAD fin;}BILQUAD;
-  
+
+
+char *matching[TAILLEADR];  
 /*---------------------quadruplets ----------------------------------------------*/
 extern char *gensym(char *prefix); /* fabrique de nouvelles chaines              */
 extern QUAD creer_quad(char *etiq,int op,char *arg1,char *arg2,char *res);
@@ -31,4 +33,5 @@ extern void test_constantes();     /* teste le generateur de noms de constantes 
 extern BILQUAD imp2quad(NOE ec); /* traduit une commande en quadruplets          */
 /*---------------------test------------------------------------------------------*/
 extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a        */
+extern int NameToId(char *etiq);
 #endif
