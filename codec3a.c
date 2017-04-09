@@ -291,7 +291,8 @@ BILQUAD imp2quad(NOE ec)
       sprintf(narg1, "%d",val );
       narg2=Idalloc();
       narg2=NULL;
-      nres=gensym("VA");
+      //nres=gensym("VA");
+      nres=strcat((ec->FG)->ETIQ,strdup2("[", strdup2((ec->FD)->ETIQ,"]")));
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
       break;
