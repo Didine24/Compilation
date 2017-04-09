@@ -157,7 +157,7 @@ type calcul_type(BILENVTY rho_gb, NOE e, int ligne)
         }
 	    return(tp);
         }
-	case Af:                                                     /* affectation */
+        case Af:                                                 /* affectation */
 	    {if (type_eq(e->FG->typno,e->FD->typno)==0)/* type(lhs) <> type(rhs)    */
 		{ type_copy(&(e->typno),terr); /* affecte type                        */
 		  typ_error("affectation de types incoherents ", ligne);

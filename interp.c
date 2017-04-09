@@ -33,6 +33,8 @@ while (i < TAILLEADR)
   {ADR[i++]=0;
    TAL[i]=0;
   }
+  padrl = 0;
+  ptasl = 0;
 }
 /* decrit la memoire: */
 /* ADR[i]: adresse du tableau i dans le TAS */
@@ -84,7 +86,6 @@ int semval(BILENVTY rho_gb,NOE e)
       return 0;      
     case I:                         /* numeral                     */
       return (atoi(e->ETIQ));
-
     case V:                         /* variable                   */
       {pos=rechty(e->ETIQ,rho_gb.debut);  
          return(pos->VAL);          /* rho_g(var)                */
@@ -95,7 +96,7 @@ int semval(BILENVTY rho_gb,NOE e)
         ADR[res]=ptasl;
         TAL[res]=taille;
         padrl++;ptasl+=taille;     /* mise a jour allocateur  memoire              */
-                    return(res);
+        return(res);
       }
     default: return(EXIT_FAILURE);  /* codop inconnu au bataillon */
       }
@@ -128,6 +129,7 @@ void semop_gp(BILENVTY rho_gb, NOE c)
          rhs=semval(rho_gb, c->FD);
          TAS[ADR[tabl]+index]=rhs;
          /*TODO: tester que index < taille */
+         
         }
       break;        
     case Sk: break;

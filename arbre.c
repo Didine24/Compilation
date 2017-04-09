@@ -213,7 +213,7 @@ char *nomop(int codop)
     case(Mp): return("Mp");
     case(Af): return("Af");
     case(Sk): return("Sk");
-    case(NewAr): return("New_array_of ");
+    case(NewAr): return("NewAr ");
     case(T_ar): return("array_of ");
     case(T_int): return("integer");
     case(T_boo): return("boolean");
@@ -239,7 +239,7 @@ char *nomop(int codop)
     case(And):return("And");
     case(Or): return("Or");
     case(Not): return("Not");
-    case(Lt): return("<");
+    case(Lt): return("Lt");
     case(Eq): return("=");
     case(0): return("");                   /* code 0: directive assembleur y86 */
     default: return(NULL);

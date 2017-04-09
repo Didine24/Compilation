@@ -1966,6 +1966,7 @@ int main()
     ecrire_bilenvty(benvty); printf("\n");
     //ecrire_memoire(5,5,20);
     printf("===============Code C3A================= \n");
+    init_memoire();
     //prefix(syntree);
     BILQUAD bq=imp2quad(syntree);
     printf("le code a 3 adresses de la commande: \n");

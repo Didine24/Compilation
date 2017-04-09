@@ -7,6 +7,7 @@
 #include "arbre.h"
 #include "codec3a.h"
 #include "pppascal.tab.h"
+#include "interp.h"
 /* pppascal.tab.h APRES arbre,h, sinon le type NOE est inconnu de gcc    */
 /*-------------------------------------------------------------------*/
 /* ----------------------------types---------------------------------*/
@@ -235,6 +236,53 @@ BILQUAD imp2quad(NOE ec)
   switch(ec->codop)
     {/* CAS: ec est une EXPRESSION */
 
+    case NewAr:
+      netiq=gensym("ET");
+      newop=ec->codop;
+      narg1=Idalloc();
+      sprintf(narg1, "TAB%d", padrl);
+      ADR[padrl]=ptasl;
+      ptasl += atoi(ec->FD->ETIQ);
+      TAL[padrl]=atoi(ec->FD->ETIQ);
+      padrl++;
+      nres=gensym("VA");
+      narg2=Idalloc();
+      narg2 = ec->FD->ETIQ;
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=creer_bilquad(nquad);
+      break;
+    case Ind:
+      printf("entree Ind\n");
+      netiq=gensym("ET");
+      newop=ec->codop;
+      
+      int indice = atoi(ec->FD->ETIQ);
+      
+      
+      narg1=Idalloc();
+      strcpy(narg1,bilq1.fin->RES);
+      printf("narg:%s\n",narg1);
+      int tabl = atoi(narg1);
+      printf("%d\n",tabl);
+      /*rhs=semval(rho_gb, c->FD);
+      TAS[ADR[tabl]+index]=rhs;
+      narg1=Idalloc();
+      
+      
+      
+      
+      sprintf(narg1, "TAB%d", padrl);
+      ADR[padrl]=ptasl;
+      ptasl += atoi(ec->FD->ETIQ);
+      TAL[padrl]=atoi(ec->FD->ETIQ);
+      padrl++;
+      nres=gensym("VA");
+      narg2=Idalloc();
+      narg2 = ec->FD->ETIQ;
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=creer_bilquad(nquad);*/
+        break;
+        
     case And:case Or:
       /* les ingredients */
       netiq=gensym("ET");
@@ -284,7 +332,7 @@ BILQUAD imp2quad(NOE ec)
       /* la suite de quadruplets */
       bilres=concatq(bilq1,bilres);
       break;
-      
+
     case Lt:
       printf("%d\n",ec->codop);
       netiq=gensym("ET");
@@ -380,6 +428,7 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq1,bilq2);
       break;
     case Af:
+      printf("af\n");
       /* les ingredients */
       netiq=gensym("ET");
       newop=Af;
@@ -393,7 +442,9 @@ BILQUAD imp2quad(NOE ec)
       /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=concatq(bilq2,creer_bilquad(nquad));
-      break;	    
+      break;
+        
+        
     case Sk:
       /* les ingredients */
       netiq=gensym("ET");newop=Sk;narg1=NULL;narg2=NULL;nres=NULL; 

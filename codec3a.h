@@ -12,7 +12,7 @@ typedef struct cellquad{
 typedef struct{
   QUAD debut;
   QUAD fin;}BILQUAD;
-
+  
 /*---------------------quadruplets ----------------------------------------------*/
 extern char *gensym(char *prefix); /* fabrique de nouvelles chaines              */
 extern QUAD creer_quad(char *etiq,int op,char *arg1,char *arg2,char *res);
