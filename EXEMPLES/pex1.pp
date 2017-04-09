@@ -1,6 +1,6 @@
 var X1 : integer,
-var X2 : integer
+var X2 : boolean,
+var X3 : boolean
 
-X2 := 10 ;
-X1 := X2 ;
-X2 := X1 * X2
+X2 := true ;
+X3 := not X2

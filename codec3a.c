@@ -224,6 +224,8 @@ BILQUAD imp2quad(NOE ec)
 { extern BILENVTY benvty;
   type tint;
   tint=creer_type(0,T_int);
+  type tboo;
+  tboo=creer_type(0,T_boo);
 
   BILQUAD bilq1, bilq2, bilexp, bilres;/* trad de: fg, fd, expression, resultat */
   int newop; char *netiq, *netiqf, *nres;        /* nouveaux ingredients */
@@ -232,6 +234,33 @@ BILQUAD imp2quad(NOE ec)
     assert(ec != NULL);
   switch(ec->codop)
     {/* CAS: ec est une EXPRESSION */
+
+    case Not:  
+      printf("not \n");            
+      netiq=gensym("ET");newop=Not;       
+      bilq1=imp2quad(ec->FG);
+      narg1=Idalloc();
+      strcpy(narg1,bilq1.fin->RES);
+      bilq2=imp2quad(ec->FD);
+      narg2=Idalloc();
+      strcpy(narg2,bilq2.fin->RES);
+      nres=NULL;
+      /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=concatq(bilq2,creer_bilquad(nquad));
+      break;
+      
+    case true: case false:
+            /* les ingredients */
+      netiq=gensym("ET");newop=Afc;
+      narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
+      narg2=NULL;nres=gensym("CT");
+      /* on insere le nom de const dans l' environnement */
+      inbilenvty(&benvty,nres,tboo);
+      /* le quadruplet: ETnum, Afc, chaineconst,-, CTnum */
+      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      bilres=creer_bilquad(nquad);
+      break;
     case Pl:case Mo:case Mu:                   /* operation binaire */
       /* les ingredients */
       netiq=gensym("ET");
@@ -263,6 +292,7 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq2,bilres);
       break; 
     case I:
+      printf("int\n");
       /* les ingredients */
       netiq=gensym("ET");newop=Afc;
       narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
@@ -296,6 +326,9 @@ BILQUAD imp2quad(NOE ec)
             /* assert(ec->FG->codop==V); */
       /* narg1= chaine en lhs */
       narg1=ec->FG->ETIQ;
+      printf("Af\n");
+      printf("FG= %s\n",narg1 );
+      printf("FD= %s\n",ec->FD->ETIQ );
       /* narg2= adresse res du code du rhs */
       bilq2=imp2quad(ec->FD);
             narg2=Idalloc();
