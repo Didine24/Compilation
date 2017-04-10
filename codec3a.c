@@ -561,6 +561,7 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
   tboo=creer_type(0,T_boo);
   type varType;
   char *nomTab;
+  //ENVTY pos;
   if (ins!=NULL)
     {int op, val1,val2,res;                  
       QUAD nins;                                /* instruction suivante */
@@ -616,7 +617,10 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         nins=ins->SUIV;
         break;
 	case Af:/* affectation var -> var    */
-      varType = type_res_op(op);
+      printf("---------------- %s : %d", ins->ARG2,valchty(rho.debut,ins->ARG2));
+      printf("\n");
+      ENVTY pos2=rechty(ins->ARG1,rho.debut);
+      varType=pos2->TYPE;
 	  val2=valchty(rho.debut,ins->ARG2);
       if(type_eq(varType,tint)==1){
         affectty(rho.debut,ins->ARG1,tint,val2);
@@ -625,6 +629,21 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
       }
 	  nins=ins->SUIV;
 	  break;
+    case Ind:
+        printf("\n");
+        nomTab=ins->ARG1;
+        ENVTY pos=rechty(nomTab,rho.debut);
+        /* val1 : num du tab */
+        //val1 = valchty(rho.debut,nomTab);
+        val1 = pos->VAL;
+        /* val2 : indice */
+        val2=atoi(ins->ARG2);
+        res = TAS[ADR[val1]+val2];
+        inbilenvty(&rho,ins->RES,tint);
+        affectty(rho.debut,ins->RES,tint,res);
+        printf("---------------- %s : %d", ins->RES,valchty(rho.debut,ins->RES));
+        nins=ins->SUIV;
+        break;
 	case Afc:/* affectation const -> var */
       if(strcmp(ins->ARG1,"true")==0){
           val1 = 1;
@@ -644,8 +663,8 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         TAL[res]=tailleTab;
         padrl++;ptasl+=tailleTab;
         nomTab=ins->ARG1;
-        char *nomTabSansTAB;
         int len = strlen(nomTab);
+        char *nomTabSansTAB=malloc(len*sizeof(char));
         int j=0;
         for(int i=0;i<len;i++){
             if(i > 2){
@@ -653,19 +672,24 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
                 j++;
             }
         }
+        nomTabSansTAB[j]='\0';
         val1=atoi(nomTabSansTAB);
         inbilenvty(&rho,ins->RES,tint);
 	    affectty(rho.debut,ins->RES,tint,val1);
 	    nins=ins->SUIV;
         break;
     case AfInd:
+        printf("\n");
         nomTab=ins->ARG1;
+        ENVTY pos3=rechty(nomTab,rho.debut);
         /* val1 : num du tab */
-        val1 = valchty(rho.debut,nomTab);
+        val1 = pos3->VAL;
+        printf("------- val1 : %d\n",val1);
         /* val2 : indice */
         val2=atoi(ins->ARG2);
-        
-        exit(1);
+        res = valchty(rho.debut,ins->RES);
+        TAS[ADR[val1]+val2] = res;
+        nins=ins->SUIV;
         break;
 	case Sk:/* skip                      */
 	  nins=ins->SUIV;
