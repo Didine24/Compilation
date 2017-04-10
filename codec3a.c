@@ -345,7 +345,6 @@ BILQUAD imp2quad(NOE ec)
       break;
 
     case Lt:case Eq:
-      printf("%d\n",ec->codop);
       netiq=gensym("ET");
       newop=ec->codop;
 
@@ -362,7 +361,6 @@ BILQUAD imp2quad(NOE ec)
       /* on insere le nom de var dans l'environnement */
       inbilenvty(&benvty,nres,tboo);
       /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
-      printf("%d\n",ec->codop);
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
       /* la suite de quadruplets */
@@ -444,18 +442,10 @@ BILQUAD imp2quad(NOE ec)
     case Af:
       codop=ec->FG->codop;
       if (codop==271)
-        {
-          int index=NameToId(((ec->FG)->FG)->ETIQ); //indice tableau dans le tas
-          // indice de la case c'est : (ec->FG)->FD
-          int indice=atoi(((ec->FG)->FD)->ETIQ);
+        { 
           // valeur a affecter c'est : ec->FD
           bilq2=imp2quad(ec->FD);
-          // TAS[ADR[index]+indice] valeur de la case 
-          if((ec->FD)->codop==258){
-            TAS[ADR[index]+indice]=atoi((ec->FD)->ETIQ); // changer la valeur en dur si c'est une constante 
-          }else{
-            TAS[ADR[index]+indice]=valchty(benvty.debut,(ec->FD)->ETIQ);
-          }  
+
           // faire l'affictation
           netiq=gensym("ET");
           newop=AfInd;
