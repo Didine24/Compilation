@@ -617,8 +617,10 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         nins=ins->SUIV;
         break;
 	case Af:/* affectation var -> var    */
-      printf("---------------- %s : %d", ins->ARG2,valchty(rho.debut,ins->ARG2));
       printf("\n");
+      ENVTY pos4=rechty(ins->ARG2,rho.debut);
+      int val = valchty(rho.debut,ins->ARG2);
+      printf("----------- val :%d\n",val);
       ENVTY pos2=rechty(ins->ARG1,rho.debut);
       varType=pos2->TYPE;
 	  val2=valchty(rho.debut,ins->ARG2);
@@ -641,20 +643,22 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         res = TAS[ADR[val1]+val2];
         inbilenvty(&rho,ins->RES,tint);
         affectty(rho.debut,ins->RES,tint,res);
-        printf("---------------- %s : %d", ins->RES,valchty(rho.debut,ins->RES));
+        ENVTY pos5=rechty(ins->RES,rho.debut);
+        int val5 = valchty(rho.debut,ins->RES);
+        printf("----------- val :%d\n",val5);
         nins=ins->SUIV;
         break;
 	case Afc:/* affectation const -> var */
-      if(strcmp(ins->ARG1,"true")==0){
-          val1 = 1;
-      }else if(strcmp(ins->ARG1,"true")==0){
-          val1 = 0;
-      }else{
+        if(strcmp(ins->ARG1,"true")==0){
+            val1 = 1;
+        }else if(strcmp(ins->ARG1,"true")==0){
+            val1 = 0;
+        }else{
         val1=atoi(ins->ARG1);
-      }
-	  inbilenvty(&rho,ins->RES,tint);
-	  affectty(rho.debut,ins->RES,tint,val1);
-	  nins=ins->SUIV;
+        }
+        inbilenvty(&rho,ins->RES,tint);
+        affectty(rho.debut,ins->RES,tint,val1);
+        nins=ins->SUIV;
 	  break;
     case NewAr:
         res=padrl;
