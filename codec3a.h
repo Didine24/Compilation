@@ -13,7 +13,6 @@ typedef struct{
   QUAD debut;
   QUAD fin;}BILQUAD;
 
-
 char *matching[TAILLEADR];  
 /*---------------------quadruplets ----------------------------------------------*/
 extern char *gensym(char *prefix); /* fabrique de nouvelles chaines              */

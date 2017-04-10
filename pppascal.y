@@ -29,7 +29,7 @@
 /* Et: expr tableau; */
 /* TP:TyPe; Argt:argument_type; */
 /* L_vart: Liste_variables_typees L_vartnn: Liste_variables_typee non-nulle */
-%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Afc St Jp Jz
+%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Afc St Jp Jz AfInd
 %token <TYP> T_int T_boo T_err T_bot
 
 /* Unités lexicales<NO>: Integer Variable Main_prog                            */
