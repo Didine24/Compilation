@@ -561,7 +561,8 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
   tboo=creer_type(0,T_boo);
   type varType;
   char *nomTab;
-  //ENVTY pos;
+  int val;
+  ENVTY pos;
   if (ins!=NULL)
     {int op, val1,val2,res;                  
       QUAD nins;                                /* instruction suivante */
@@ -570,7 +571,6 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
 	{case Pl:case Mo:case Mu:/* operation binaire */
 	    val1=valchty(rho.debut,ins->ARG1);val2=valchty(rho.debut,ins->ARG2);
 	    res=eval(op,val1,val2);
-        
 	    inbilenvty(&rho,ins->RES,tint);/* ajouter ins->RES dans *rho) */
 	    affectty(rho.debut,ins->RES,tint,res);
 	    nins=ins->SUIV;
@@ -618,11 +618,10 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         break;
 	case Af:/* affectation var -> var    */
       printf("\n");
-      ENVTY pos4=rechty(ins->ARG2,rho.debut);
-      int val = valchty(rho.debut,ins->ARG2);
-      printf("----------- val :%d\n",val);
-      ENVTY pos2=rechty(ins->ARG1,rho.debut);
-      varType=pos2->TYPE;
+      val = valchty(rho.debut,ins->ARG2);
+      printf("----------- val af :%d\n",val);
+      pos=rechty(ins->ARG1,rho.debut);
+      varType=pos->TYPE;
 	  val2=valchty(rho.debut,ins->ARG2);
       if(type_eq(varType,tint)==1){
         affectty(rho.debut,ins->ARG1,tint,val2);
@@ -634,7 +633,7 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
     case Ind:
         printf("\n");
         nomTab=ins->ARG1;
-        ENVTY pos=rechty(nomTab,rho.debut);
+        pos=rechty(nomTab,rho.debut);
         /* val1 : num du tab */
         //val1 = valchty(rho.debut,nomTab);
         val1 = pos->VAL;
@@ -643,9 +642,9 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         res = TAS[ADR[val1]+val2];
         inbilenvty(&rho,ins->RES,tint);
         affectty(rho.debut,ins->RES,tint,res);
-        ENVTY pos5=rechty(ins->RES,rho.debut);
-        int val5 = valchty(rho.debut,ins->RES);
-        printf("----------- val :%d\n",val5);
+        affectb(rho, ins->RES, res);
+        //int val5 = valchty(rho.debut,ins->RES);
+        //printf("----------- val 5 :%d\n",val5);
         nins=ins->SUIV;
         break;
 	case Afc:/* affectation const -> var */
@@ -685,9 +684,9 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
     case AfInd:
         printf("\n");
         nomTab=ins->ARG1;
-        ENVTY pos3=rechty(nomTab,rho.debut);
+        pos=rechty(nomTab,rho.debut);
         /* val1 : num du tab */
-        val1 = pos3->VAL;
+        val1 = pos->VAL;
         printf("------- val1 : %d\n",val1);
         /* val2 : indice */
         val2=atoi(ins->ARG2);
