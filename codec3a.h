@@ -2,7 +2,7 @@
 #ifndef CODEC3A_H
 #define CODEC3A_H 
 /* ----------------------------types--------------------------------------------*/
-/* biliste de quadruplets etiquetes (stocke C3A ou Y86 )*/
+/* biliste de quadruplets etiquetes (stocke C3A )*/
 typedef struct cellquad{
   char *ETIQ;
   int  OP;
@@ -15,7 +15,6 @@ typedef struct{
 
 
 extern int NameToId(char *etiq);
-extern char* strdup2(char* s1, char* s2);
 
 
 char *matching[TAILLEADR];
@@ -32,13 +31,13 @@ extern void ecrire_quad(QUAD qd); /* affiche le quadruplet                      
 extern void secrire_quad(char *tquad,QUAD qd); /* ecrit le quadruplet dans tquad */
 extern void ecrire_bilquad(BILQUAD bq); /* affiche la biliste de quadruplets     */
 extern void ecrire_sep_bilquad(BILQUAD bq);/* affiche bq , avec separateurs ":"  */
-extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a        */
+extern void test_tradc3a(int n, NOE c);/* teste la traduction pp --> c3a        */
 extern void test_constantes();     /* teste le generateur de noms de constantes  */
-/*---------------------de-imp-vers-C3A-------------------------------------------*/
-extern BILQUAD imp2quad(NOE ec); /* traduit une commande en quadruplets          */
-/*---------------------semantique de C3A-----------------------------------------*/
-extern QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a);  /* Un pt pas de sem op */
-extern void semop_ppq(BILENVTY rho, BILQUAD c3a);/* semantique op a petits pas       */
+/*---------------------de-pp-vers-C3A-------------------------------------------*/
+extern BILQUAD pp2quad(NOE ec); /* traduit une commande en quadruplets          */
+/*---------------------interpéteur de C3A-----------------------------------------*/
+extern QUAD interp_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a);  /* Interp C3A */
+extern void interp_ppq(BILENVTY rho, BILQUAD c3a);/* Interp op a petits pas       */
 /*---------------------test------------------------------------------------------*/
-extern void test_tradc3a(int n, NOE c);/* teste la traduction imp --> c3a        */
+
 #endif

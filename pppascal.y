@@ -263,7 +263,7 @@ int main(int argn, char **argv)
   printf("------------------------:\n");
   ecrire_bilenvty(benvty); printf("\n");
   //ecrire_memoire(5,5,20);
-  semop_gp(benvty,syntree);
+  interp_gp(benvty,syntree);
   printf("Les variables globales apres exec:\n");
   printf("------------------------:\n");
   ecrire_bilenvty(benvty); printf("\n");
@@ -278,10 +278,23 @@ int main()
     yyparse();
     prefix(syntree);
     printf("\n la commande, avec des codes d'entiers \n");
-    BILQUAD bq=imp2quad(syntree);
+    BILQUAD bq=pp2quad(syntree);
     printf("le code a 3 adresses de la commande: \n");
     ecrire_bilquad(bq);
  }*/
+
+ /* Interpéteur C3A 
+int main()
+{
+    yyparse();
+    init_memoire();
+    ecrire_bilenvty(benvty);
+    interp_ppq(benvty,bq);
+    printf("\n l'environnement d'arrivee\n");
+    ecrire_bilenvty(benvty);
+
+ }*/
+
 
 /* Main principale */
 
@@ -307,7 +320,7 @@ int main()
     printf(":--------------------------------:\n");
     ecrire_bilenvty(benvty); printf("\n");
     //ecrire_memoire(5,5,20);
-    semop_gp(benvty,syntree);
+    interp_gp(benvty,syntree);
     printf("Les variables globales apres exec:\n");
     printf(":--------------------------------:\n");
     ecrire_bilenvty(benvty); printf("\n");
@@ -315,16 +328,15 @@ int main()
     printf("=============== Code C3A ================= \n");
     init_memoire();
     //prefix(syntree);
-    BILQUAD bq=imp2quad(syntree);
+    BILQUAD bq=pp2quad(syntree);
     printf("le code a 3 adresses de la commande: \n");
     ecrire_bilquad(bq);
     printf("========== interprétation C3A ================ \n");
     init_memoire();
     ecrire_bilenvty(benvty);
-    semop_ppq(benvty,bq);
+    interp_ppq(benvty,bq);
     printf("\n l'environnement d'arrivee\n");
     ecrire_bilenvty(benvty);
-
     return(1);
  }
 

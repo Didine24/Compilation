@@ -60,26 +60,26 @@ void ecrire_memoire(int maxadr, int maxtal, int maxtas)
  return;
 }
 /*--------------------------------------------------------------------*/        
-/*---------------semantique-------------------------------------------*/
+/*-----------------------interpréteur---------------------------------*/
 /* N.B.allocation dynamique de tableaux; mais pas de ramasse-miettes! */
 
-/* semantique op a grands pas des expressions                         */
+/* interpréteur op a grands pas des expressions                       */
 /* fait agir e sur rho_gb, le  modifie, retourne val(e)               */
-int semval(BILENVTY rho_gb,NOE e) 
+int interpval(BILENVTY rho_gb,NOE e) 
 { if(e != NULL)
     {ENVTY pos;
       int res,taille;
             switch(e->codop)
     {     
      case Ind:
-       {int tab=semval(rho_gb,e->FG);        /* adresse du tableau    */
-       int ind=semval(rho_gb,e->FD);         /* index dans le tableau */
+       {int tab=interpval(rho_gb,e->FG);        /* adresse du tableau    */
+       int ind=interpval(rho_gb,e->FD);         /* index dans le tableau */
        return(TAS[ADR[tab]+ind]);
        }
       case Pl:case Mo:case Mu:case And:case Or:case Lt:case  Eq:/* op binaire      */
-        return(eval(e->codop,semval(rho_gb,e->FG),semval(rho_gb,e->FD)));
+        return(eval(e->codop,interpval(rho_gb,e->FG),interpval(rho_gb,e->FD)));
     case Not:                                            /* operation unaire      */
-      return(eval(e->codop,semval(rho_gb,e->FG),0));
+      return(eval(e->codop,interpval(rho_gb,e->FG),0));
     case true: 
       return 1;
     case false:
@@ -91,7 +91,7 @@ int semval(BILENVTY rho_gb,NOE e)
          return(pos->VAL);          /* rho_g(var)                */
       }
     case NewAr:                                /* creation tableau                */
-      {taille=semval(rho_gb,e->FD);            /* taille du tableau               */
+      {taille=interpval(rho_gb,e->FD);            /* taille du tableau               */
         res=padrl;
         ADR[res]=ptasl;
         TAL[res]=taille;
@@ -107,26 +107,26 @@ int semval(BILENVTY rho_gb,NOE e)
 
 /* semantique op a grands pas des commandes                      */
 /* fait agir c sur rho_gb, le  modifie                           */
-void semop_gp(BILENVTY rho_gb, NOE c)
+void interp_gp(BILENVTY rho_gb, NOE c)
 {char *lhs; int rhs; int cond;
  if(c != NULL)
     {switch(c->codop)
        {case Mp:
-        semop_gp(rho_gb, c->FG);
+        interp_gp(rho_gb, c->FG);
         break;
     case Af:
       if (c->FG->codop==V)        /* affectation a une variable */
         {lhs= c->FG->ETIQ;
          printf("lhs vaut %s \n",lhs);
-         rhs= semval(rho_gb, c->FD);
+         rhs= interpval(rho_gb, c->FD);
          printf("rhs vaut %d \n",rhs);
          affectb(rho_gb, lhs, rhs);
         }
       else
         {assert(c->FG->codop==Ind);/* affectation a un tableau */
-         int tabl= semval(rho_gb, c->FG->FG);
-         int index=semval(rho_gb, c->FG->FD);
-         rhs=semval(rho_gb, c->FD);
+         int tabl= interpval(rho_gb, c->FG->FG);
+         int index=interpval(rho_gb, c->FG->FD);
+         rhs=interpval(rho_gb, c->FD);
          TAS[ADR[tabl]+index]=rhs;
          /*TODO: tester que index < taille */
          
@@ -134,21 +134,21 @@ void semop_gp(BILENVTY rho_gb, NOE c)
       break;        
     case Sk: break;
     case Se: 
-      semop_gp(rho_gb, c->FG);
-      semop_gp(rho_gb, c->FD);
+      interp_gp(rho_gb, c->FG);
+      interp_gp(rho_gb, c->FD);
       break; 
     case If:
-      cond= semval(rho_gb, c->FG);
+      cond= interpval(rho_gb, c->FG);
       if (cond!=0)                /* cas ou cond !=0 */ 
-        semop_gp(rho_gb, c->FD->FG); 
+        interp_gp(rho_gb, c->FD->FG); 
       else                        /* cas ou cond ==0 */
-        semop_gp(rho_gb, c->FD->FD);
+        interp_gp(rho_gb, c->FD->FD);
       break;
     case Wh:
-      cond= semval(rho_gb, c->FG);
+      cond= interpval(rho_gb, c->FG);
       if (cond != 0)           /* on execute seq(corps,c)*/
-        {semop_gp(rho_gb, c->FD);
-          semop_gp(rho_gb, c); 
+        {interp_gp(rho_gb, c->FD);
+          interp_gp(rho_gb, c); 
         }
       break;
     default: break;

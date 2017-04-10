@@ -16,24 +16,6 @@
 /*-------------------------------------------------------------------*/
 /*---------------------quadruplets-----------------------------------*/
 
-char* strdup2(char* s1, char* s2)
-{
-  assert(s1 != NULL);
-  assert(s2 != NULL);
-  size_t len1 = strlen(s1);
-  size_t len2 = strlen(s2);
-  char* res = malloc(len1 + len2 + 1);
-
-  if (res != NULL)
-  {
-    memcpy(res, s1, len1);
-    memcpy(res + len1, s2, len2);
-    res[len1 + len2] = 0;
-  }
-
-  return res;
-}
-
 
 
 int NameToId(char *etiq){
@@ -247,11 +229,10 @@ void ecrire_sep_bilquad(BILQUAD bq)
       qcour=qcour->SUIV;}
 }
 /*-------------------------------------------------------------------*/
-/*------------------------imp-vers-quad------------------------------*/
+/*------------------------pp-vers-quad------------------------------*/
 
 /* traduit une (expression ou commande) en biliste de quadruplets */
-/* met a jour l'environnement (var globale)                      */
-BILQUAD imp2quad(NOE ec)
+BILQUAD pp2quad(NOE ec)
 { extern BILENVTY benvty;
   type tint;
   tint=creer_type(0,T_int);
@@ -299,8 +280,8 @@ BILQUAD imp2quad(NOE ec)
       netiq=gensym("ET");
       newop=ec->codop;
       /* les traductions des deux arguments */
-      bilq1=imp2quad(ec->FG);
-      bilq2=imp2quad(ec->FD);
+      bilq1=pp2quad(ec->FG);
+      bilq2=pp2quad(ec->FD);
       /* se simplifie ? */
       if (ec->FG->codop!=V)
       {narg1=Idalloc();
@@ -326,7 +307,7 @@ BILQUAD imp2quad(NOE ec)
       netiq=gensym("ET");
       newop=ec->codop;
       /* les traductions des deux arguments */
-      bilq1=imp2quad(ec->FG);
+      bilq1=pp2quad(ec->FG);
       /* se simplifie ? */
       narg1=Idalloc();
       strcpy(narg1,bilq1.fin->RES);
@@ -346,11 +327,11 @@ BILQUAD imp2quad(NOE ec)
       newop=ec->codop;
 
       /* les traductions des deux arguments */
-      bilq1=imp2quad(ec->FG);
+      bilq1=pp2quad(ec->FG);
       /* se simplifie ? */
       narg1=Idalloc();
       strcpy(narg1,bilq1.fin->RES);
-      bilq2=imp2quad(ec->FD);
+      bilq2=pp2quad(ec->FD);
       /* se simplifie ? */
       narg2=Idalloc();
       strcpy(narg2,bilq2.fin->RES);
@@ -380,8 +361,8 @@ BILQUAD imp2quad(NOE ec)
       netiq=gensym("ET");
       newop=ec->codop;
       /* les traductions des deux arguments */
-      bilq1=imp2quad(ec->FG);
-      bilq2=imp2quad(ec->FD);
+      bilq1=pp2quad(ec->FG);
+      bilq2=pp2quad(ec->FD);
       /* se simplifie ? */
       if (ec->FG->codop!=V)
 	{narg1=Idalloc();
@@ -428,7 +409,7 @@ BILQUAD imp2quad(NOE ec)
       break;
       /* CAS: ec est une COMMANDE */
     case Mp:
-      bilq1=imp2quad(ec->FG);
+      bilq1=pp2quad(ec->FG);
       /* les ingredients */
       netiq=gensym("ET");newop=St;narg1=NULL;narg2=NULL;nres=NULL;
       /* le quadruplet final: stop  (pas d'adresse de resultat) */
@@ -441,7 +422,7 @@ BILQUAD imp2quad(NOE ec)
       if (codop==271)
         { 
           // valeur a affecter c'est : ec->FD
-          bilq2=imp2quad(ec->FD);
+          bilq2=pp2quad(ec->FD);
 
           // faire l'affictation
           netiq=gensym("ET");
@@ -468,7 +449,7 @@ BILQUAD imp2quad(NOE ec)
         /* narg1= chaine en lhs */
         narg1=ec->FG->ETIQ;
         /* narg2= adresse res du code du rhs */
-        bilq2=imp2quad(ec->FD);
+        bilq2=pp2quad(ec->FD);
         narg2=Idalloc();
         strcpy(narg2,bilq2.fin->RES);
         nres=NULL;
@@ -486,14 +467,14 @@ BILQUAD imp2quad(NOE ec)
       bilres=creer_bilquad(nquad);
       break;
     case Se: 
-      bilq1=imp2quad(ec->FG);
-      bilq2=imp2quad(ec->FD);
+      bilq1=pp2quad(ec->FG);
+      bilq2=pp2quad(ec->FD);
       bilres=concatq(bilq1,bilq2);
       break;
     case If:
-      bilexp=imp2quad(ec->FG);    /* traduction de l'expression */
-      bilq1=imp2quad(ec->FD->FG); /* commande (cas vrai) */
-      bilq2=imp2quad(ec->FD->FD); /* commande (cas faux) */
+      bilexp=pp2quad(ec->FG);    /* traduction de l'expression */
+      bilq1=pp2quad(ec->FD->FG); /* commande (cas vrai) */
+      bilq2=pp2quad(ec->FD->FD); /* commande (cas faux) */
       bilq2=normal(bilq2);
       /* les ingredients de Q1 */
       netiq=gensym("ET");newop=Jz;
@@ -517,8 +498,8 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilres,bilq2);
       break;
     case Wh:
-      bilexp=imp2quad(ec->FG);    /* traduction de l'expression */
-      bilq1=imp2quad(ec->FD);     /* traduction du corps        */
+      bilexp=pp2quad(ec->FG);    /* traduction de l'expression */
+      bilq1=pp2quad(ec->FD);     /* traduction du corps        */
       bilq1=normal(bilq1);
       /* les ingredients de Q1 */
       netiq=gensym("ET");newop=Jz;  /* etiquette de Q1            */
@@ -553,7 +534,7 @@ BILQUAD imp2quad(NOE ec)
     return(bilres);
 } 
 
-QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
+QUAD interp_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
 {
   type tint;
   tint=creer_type(0,T_int);
@@ -561,7 +542,6 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
   tboo=creer_type(0,T_boo);
   type varType;
   char *nomTab;
-  int val;
   ENVTY pos;
   if (ins!=NULL)
     {int op, val1,val2,res;                  
@@ -617,43 +597,37 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         nins=ins->SUIV;
         break;
 	case Af:/* affectation var -> var    */
-      printf("\n");
-      val = valchty(rho.debut,ins->ARG2);
-      printf("----------- val af :%d\n",val);
       pos=rechty(ins->ARG1,rho.debut);
       varType=pos->TYPE;
-	  val2=valchty(rho.debut,ins->ARG2);
+	    val2=valchty(rho.debut,ins->ARG2);
       if(type_eq(varType,tint)==1){
-        affectty(rho.debut,ins->ARG1,tint,val2);
+        //inbilenvty(&rho,ins->ARG1,tint);
+        //affectty(rho.debut,ins->ARG1,tint,val2);
       }else if(type_eq(varType,tboo)==1){
-        affectty(rho.debut,ins->ARG1,tboo,val2);
+        //inbilenvty(&rho,ins->ARG1,tboo);
+        //affectty(rho.debut,ins->ARG1,tboo,val2);
       }
-	  nins=ins->SUIV;
-	  break;
+	    nins=ins->SUIV;
+	    break;
     case Ind:
         printf("\n");
         nomTab=ins->ARG1;
-        pos=rechty(nomTab,rho.debut);
         /* val1 : num du tab */
-        //val1 = valchty(rho.debut,nomTab);
-        val1 = pos->VAL;
+        val1 = valchty(rho.debut,nomTab);
         /* val2 : indice */
         val2=atoi(ins->ARG2);
         res = TAS[ADR[val1]+val2];
         inbilenvty(&rho,ins->RES,tint);
         affectty(rho.debut,ins->RES,tint,res);
-        affectb(rho, ins->RES, res);
-        //int val5 = valchty(rho.debut,ins->RES);
-        //printf("----------- val 5 :%d\n",val5);
         nins=ins->SUIV;
         break;
 	case Afc:/* affectation const -> var */
         if(strcmp(ins->ARG1,"true")==0){
             val1 = 1;
-        }else if(strcmp(ins->ARG1,"true")==0){
+        }else if(strcmp(ins->ARG1,"false")==0){
             val1 = 0;
         }else{
-        val1=atoi(ins->ARG1);
+          val1=atoi(ins->ARG1);
         }
         inbilenvty(&rho,ins->RES,tint);
         affectty(rho.debut,ins->RES,tint,val1);
@@ -684,10 +658,8 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
     case AfInd:
         printf("\n");
         nomTab=ins->ARG1;
-        pos=rechty(nomTab,rho.debut);
         /* val1 : num du tab */
-        val1 = pos->VAL;
-        printf("------- val1 : %d\n",val1);
+        val1 = valchty(rho.debut,nomTab);
         /* val2 : indice */
         val2=atoi(ins->ARG2);
         res = valchty(rho.debut,ins->RES);
@@ -723,36 +695,12 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
 
 
   
-/* semantique op a petits pas: c3a agit sur *rho (qui est modifie)         */
-void semop_ppq(BILENVTY rho, BILQUAD c3a)
+/* interpéteur C3A */
+void interp_ppq(BILENVTY rho, BILQUAD c3a)
 {QUAD qcour;
   qcour=c3a.debut;
   while (qcour != NULL)
-    qcour=semop_1ppq(rho,qcour,c3a);
+    qcour=interp_1ppq(rho,qcour,c3a);
   return;}
 
-/* teste la traduction imp --> c3a*/
-void test_tradc3a(int n, NOE c)
-{/* char *etiq;int op;char *arg1; char *arg2;char *res; 
-  int i;QUAD qcour;
-  BILQUAD bq,bqcour;
-  bq.debut=NULL;bq.fin=NULL;
-    for(i=0;i<n;i++)
-    {qcour=creer_quad(gensym("ET"),Af,gensym("ARG"),gensym("ARG"),gensym("RES"));
-      ecrire_quad(qcour);
-    };
-  for(i=0;i<n;i++)
-    {qcour=creer_quad(gensym("ET"),Af,gensym("ARG"),gensym("ARG"),gensym("RES"));
-      bqcour=creer_bilquad(qcour);
-      bq=concatq(bq,bqcour);
-    };
-  printf("la biliste des chaines engendrees \n");
-  ecrire_bilquad(bq);
-  printf("\n");
-  bq=imp2quad(c);
-  printf("le code a 3 adresses de la commande: \n");
-  ecrire_bilquad(bq);
-  printf("on interprete le code a 3 adresses: \n");
-  semop_ppq(envrnt,bq);*/
-}
 

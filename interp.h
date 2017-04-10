@@ -2,15 +2,15 @@
 #ifndef INTERP_H
 #define INTERP_H
 
-/*----------------------semantique-----------------------------------------------*/
+/*----------------------interpéteur ----------------------------------------------*/
 /* initialisation  memoire                                                       */
 void init_memoire();/* initialise le tas: TAS, ADR, TAL                          */
 /* decrit la memoire: ADR, TAL, TAS */
 void ecrire_memoire(int maxadr, int maxtal, int maxtas);
-/* semantique op a grands pas des expressions */  
-extern int semval(BILENVTY rho_gb, NOE e);
-/*semantique op a grdspas des commandes                                          */
-extern void semop_gp(BILENVTY rho_gb, NOE c);
+/* interpréteur op a grands pas des expressions */  
+extern int interpval(BILENVTY rho_gb, NOE e);
+/*interpréteur op a grdspas des commandes                                          */
+extern void interp_gp(BILENVTY rho_gb, NOE c);
 /*---------------------VARIABLES globales ---------------------------------------*/
 extern NOE syntree;          /* arbre syntaxique                      (y.tab.c)  */
 extern int TAS [TAILLEMEM];  /* le tas; (NIL=0); "vraies" adresses >=1(y.tab.c)  */
