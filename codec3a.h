@@ -18,7 +18,8 @@ extern int NameToId(char *etiq);
 extern char* strdup2(char* s1, char* s2);
 
 
-char *matching[TAILLEADR];  
+char *matching[TAILLEADR];
+
 /*---------------------quadruplets ----------------------------------------------*/
 extern char *gensym(char *prefix); /* fabrique de nouvelles chaines              */
 extern QUAD creer_quad(char *etiq,int op,char *arg1,char *arg2,char *res);

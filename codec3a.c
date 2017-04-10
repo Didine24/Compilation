@@ -570,7 +570,7 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
   type tboo;
   tboo=creer_type(0,T_boo);
   type varType;
-  //int codop;
+  char *nomTab;
   if (ins!=NULL)
     {int op, val1,val2,res;                  
       QUAD nins;                                /* instruction suivante */
@@ -653,13 +653,29 @@ QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
         int tailleTab=atoi(ins->ARG2);
         TAL[res]=tailleTab;
         padrl++;ptasl+=tailleTab;
-        nins=ins->SUIV;
+        nomTab=ins->ARG1;
+        char *nomTabSansTAB;
+        int len = strlen(nomTab);
+        int j=0;
+        for(int i=0;i<len;i++){
+            if(i > 2){
+                nomTabSansTAB[j]=nomTab[i];
+                j++;
+            }
+        }
+        val1=atoi(nomTabSansTAB);
+        inbilenvty(&rho,ins->RES,tint);
+	    affectty(rho.debut,ins->RES,tint,val1);
+	    nins=ins->SUIV;
         break;
     case AfInd:
-        printf("\n");
-        char *nomTab=ins->ARG1;
-        printf("%s\n",nomTab);
-        int indiceTab=atoi(ins->ARG2);
+        nomTab=ins->ARG1;
+        /* val1 : num du tab */
+        val1 = valchty(rho.debut,nomTab);
+        /* val2 : indice */
+        val2=atoi(ins->ARG2);
+        
+        exit(1);
         break;
 	case Sk:/* skip                      */
 	  nins=ins->SUIV;
