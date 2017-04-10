@@ -212,7 +212,6 @@ char *nomop(int codop)
     case(V):return("V");
     case(Mp): return("Mp");
     case(Af): return("Af");
-    case(AfInd) : return("AfInd");
     case(Sk): return("Sk");
     case(NewAr): return("NewAr ");
     case(T_ar): return("array_of ");
