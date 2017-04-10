@@ -13,8 +13,11 @@ typedef struct{
   QUAD debut;
   QUAD fin;}BILQUAD;
 
+
 extern int NameToId(char *etiq);
 extern char* strdup2(char* s1, char* s2);
+
+
 char *matching[TAILLEADR];  
 /*---------------------quadruplets ----------------------------------------------*/
 extern char *gensym(char *prefix); /* fabrique de nouvelles chaines              */

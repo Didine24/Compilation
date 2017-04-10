@@ -35,6 +35,7 @@ char* strdup2(char* s1, char* s2)
 }
 
 
+
 int NameToId(char *etiq){
   for (int i = 0; i < TAILLEADR; i++)
   {
@@ -283,17 +284,13 @@ BILQUAD imp2quad(NOE ec)
       break;
     case Ind:
       netiq=gensym("ET");
-      int index=NameToId(ec->FG->ETIQ);
-      newop=ec->codop;
-      int indice = atoi(ec->FD->ETIQ);     
-      int val=TAS[ADR[index]+indice];
+      newop=ec->codop;    
       narg1=Idalloc();
-      sprintf(narg1, "%d",val );
       narg2=Idalloc();
-      narg2=NULL;
-      //nres=gensym("VA");
-      nres=strcat((ec->FG)->ETIQ,strdup2("[", strdup2((ec->FD)->ETIQ,"]")));
-      nquad=creer_quad(netiq,newop,narg1,narg2,nres);
+      narg1=gensym("VA");
+      narg2=(ec->FD)->ETIQ;
+      nres=(ec->FG)->ETIQ;
+      nquad=creer_quad(netiq,newop,nres,narg2,narg1);
       bilres=creer_bilquad(nquad);
       break;
         
@@ -317,7 +314,7 @@ BILQUAD imp2quad(NOE ec)
         strcpy(narg2,ec->FD->ETIQ);}
       nres=gensym("VA");
       /* on insere le nom de var dans l'environnement */
-      inbilenvty(&benvty,nres,tint);
+      inbilenvty(&benvty,nres,tboo);
       /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
@@ -343,10 +340,12 @@ BILQUAD imp2quad(NOE ec)
       /* la suite de quadruplets */
       bilres=concatq(bilq1,bilres);
       break;
+
     case Lt: case Eq:
       printf("%d\n",ec->codop);
       netiq=gensym("ET");
       newop=ec->codop;
+
       /* les traductions des deux arguments */
       bilq1=imp2quad(ec->FG);
       /* se simplifie ? */
@@ -400,7 +399,7 @@ BILQUAD imp2quad(NOE ec)
 	  strcpy(narg2,ec->FD->ETIQ);}
       nres=gensym("VA");
       /* on insere le nom de var dans l'environnement */
-      inbilenvty(&benvty,nres,tint);
+        inbilenvty(&benvty,nres,tint);
       /* le quadruplet: ETnum, Afc, chaineconst,-, VAnum */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
@@ -414,7 +413,11 @@ BILQUAD imp2quad(NOE ec)
       narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
       narg2=NULL;nres=gensym("CT");
       /* on insere le nom de const dans l' environnement */
-      inbilenvty(&benvty,nres,tint);
+      if (type_eq(ec->typno,tint)==1){
+        inbilenvty(&benvty,nres,tint);
+      }else {
+        inbilenvty(&benvty,nres,tboo);
+      }
       /* le quadruplet: ETnum, Afc, chaineconst,-, CTnum */
       nquad=creer_quad(netiq,newop,narg1,narg2,nres);
       bilres=creer_bilquad(nquad);
@@ -452,13 +455,14 @@ BILQUAD imp2quad(NOE ec)
           }  
           // faire l'affictation
           netiq=gensym("ET");
-          newop=Af;
+          newop=AfInd;
           
-          narg1=strcat(((ec->FG)->FG)->ETIQ,strdup2("[", strdup2(((ec->FG)->FD)->ETIQ,"]")));
+          narg1=((ec->FG)->FG)->ETIQ;
           /* narg2= adresse res du code du rhs */
           narg2=Idalloc();
-          strcpy(narg2,bilq2.fin->RES);
-          nres=NULL;
+          narg2=((ec->FG)->FD)->ETIQ;
+          nres=Idalloc();
+          strcpy(nres,bilq2.fin->RES);
           /* le quadruplet: ETnum, Af, chainevar1,chaineres2, NULL */
           nquad=creer_quad(netiq,newop,narg1,narg2,nres);
           bilres=concatq(bilq2,creer_bilquad(nquad));

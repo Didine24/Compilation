@@ -242,6 +242,7 @@ char *nomop(int codop)
     case(Not): return("Not");
     case(Lt): return("Lt");
     case(Eq): return("Eq");
+    case(AfInd) : return ("AfInd");
     case(0): return("");                   /* code 0: directive assembleur y86 */
     default: return(NULL);
     };
