@@ -29,7 +29,7 @@
 /* Et: expr tableau; */
 /* TP:TyPe; Argt:argument_type; */
 /* L_vart: Liste_variables_typees L_vartnn: Liste_variables_typee non-nulle */
-%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Afc St Jp Jz
+%token <NO> I V Def Dep Mp Af Sk NewAr T_ar T_com true false Se Ind If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Afc St Jp Jz AfInd
 %token <TYP> T_int T_boo T_err T_bot
 
 /* Unités lexicales<NO>: Integer Variable Main_prog                            */
@@ -287,10 +287,10 @@ int main()
 
 int main()
 {
-    printf("==========analyse syntaxique =========== \n");
+    printf("========== analyse syntaxique =========== \n");
     yyparse();
     ecrire_prog(benvty,syntree);
-    printf("==========analyse sémantique =========== \n");
+    printf("========== analyse sémantique =========== \n");
     //ecrire_prog(benvty,syntree);
     type terr=creer_type(0,T_err);
     type tcom= creer_type(0,T_com);
@@ -300,7 +300,7 @@ int main()
       printf("programme bien type\n");
     else
       printf("attention: typage incomplet\n");
-    printf("==========interprétation================ \n");
+    printf("========== interprétation PP ================ \n");
     //ecrire_prog(benvty,syntree);
     //init_memoire();
     printf("Les variables globales avant exec:\n");
@@ -312,12 +312,18 @@ int main()
     printf(":--------------------------------:\n");
     ecrire_bilenvty(benvty); printf("\n");
     //ecrire_memoire(5,5,20);
-    printf("===============Code C3A================= \n");
+    printf("=============== Code C3A ================= \n");
     init_memoire();
     //prefix(syntree);
     BILQUAD bq=imp2quad(syntree);
     printf("le code a 3 adresses de la commande: \n");
     ecrire_bilquad(bq);
+    printf("========== interprétation C3A ================ \n");
+    init_memoire();
+    ecrire_bilenvty(benvty);
+    semop_ppq(benvty,bq);
+    printf("\n l'environnement d'arrivee\n");
+    ecrire_bilenvty(benvty);
 
     return(1);
  }

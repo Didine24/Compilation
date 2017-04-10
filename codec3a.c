@@ -306,17 +306,15 @@ BILQUAD imp2quad(NOE ec)
       bilq2=imp2quad(ec->FD);
       /* se simplifie ? */
       if (ec->FG->codop!=V)
-  {narg1=Idalloc();
-    strcpy(narg1,bilq1.fin->RES);}
-      else
-  {narg1=Idalloc();
-    strcpy(narg1,ec->FG->ETIQ);}
+      {narg1=Idalloc();
+      strcpy(narg1,bilq1.fin->RES);}
+      else{narg1=Idalloc();
+      strcpy(narg1,ec->FG->ETIQ);}
       if (ec->FD->codop!=V)
-  {narg2=Idalloc();
-    strcpy(narg2,bilq2.fin->RES);}
-      else
-  {narg2=Idalloc();
-    strcpy(narg2,ec->FD->ETIQ);}
+      {narg2=Idalloc();
+        strcpy(narg2,bilq2.fin->RES);}
+        else{narg2=Idalloc();
+        strcpy(narg2,ec->FD->ETIQ);}
       nres=gensym("VA");
       /* on insere le nom de var dans l'environnement */
       inbilenvty(&benvty,nres,tint);
@@ -327,7 +325,6 @@ BILQUAD imp2quad(NOE ec)
       bilq2=concatq(bilq1,bilq2);
       bilres=concatq(bilq2,bilres);
       break; 
-
     case Not:
       netiq=gensym("ET");
       newop=ec->codop;
@@ -346,12 +343,10 @@ BILQUAD imp2quad(NOE ec)
       /* la suite de quadruplets */
       bilres=concatq(bilq1,bilres);
       break;
-
-    case Lt:
+    case Lt: case Eq:
       printf("%d\n",ec->codop);
       netiq=gensym("ET");
-      newop=Lt;
-
+      newop=ec->codop;
       /* les traductions des deux arguments */
       bilq1=imp2quad(ec->FG);
       /* se simplifie ? */
@@ -373,7 +368,7 @@ BILQUAD imp2quad(NOE ec)
       bilres=concatq(bilq2,bilres);
       break;
     case true: case false:
-            /* les ingredients */
+      /* les ingredients */
       netiq=gensym("ET");newop=Afc;
       narg1=Idalloc();sprintf(narg1,"%s",ec->ETIQ);
       narg2=NULL;nres=gensym("CT");
@@ -488,8 +483,7 @@ BILQUAD imp2quad(NOE ec)
         bilres=concatq(bilq2,creer_bilquad(nquad));
       }
       break;
-        
-        
+    
     case Sk:
       /* les ingredients */
       netiq=gensym("ET");newop=Sk;narg1=NULL;narg2=NULL;nres=NULL; 
@@ -565,9 +559,144 @@ BILQUAD imp2quad(NOE ec)
     return(bilres);
 } 
 
+QUAD semop_1ppq(BILENVTY rho, QUAD ins, BILQUAD c3a)
+{
+  type tint;
+  tint=creer_type(0,T_int);
+  type tboo;
+  tboo=creer_type(0,T_boo);
+  type varType;
+  //int codop;
+  if (ins!=NULL)
+    {int op, val1,val2,res;                  
+      QUAD nins;                                /* instruction suivante */
+      op=ins->OP;
+            switch(op)
+	{case Pl:case Mo:case Mu:/* operation binaire */
+	    val1=valchty(rho.debut,ins->ARG1);val2=valchty(rho.debut,ins->ARG2);
+	    res=eval(op,val1,val2);
+        
+	    inbilenvty(&rho,ins->RES,tint);/* ajouter ins->RES dans *rho) */
+	    affectty(rho.debut,ins->RES,tint,res);
+	    nins=ins->SUIV;
+	    break;
+    case And:case Or:/* operation binaire */
+	    val1=valchty(rho.debut,ins->ARG1);val2=valchty(rho.debut,ins->ARG2);
+	    res=eval(op,val1,val2);
+	    inbilenvty(&rho,ins->RES,tint);/* ajouter ins->RES dans *rho) */
+	    affectty(rho.debut,ins->RES,tboo,res);
+	    nins=ins->SUIV;
+	    break;
+    case Not:
+        val1=valchty(rho.debut,ins->ARG1);
+        if(val1 == 0){
+            res = 1;
+        }else{
+            res = 0;
+        }
+        inbilenvty(&rho,ins->RES,tboo);/* ajouter ins->RES dans *rho) */
+        affectty(rho.debut,ins->RES,tboo,res);
+        nins=ins->SUIV;
+        break;
+    case Eq:
+        printf("-------------------------- entre Eq-----------------\n");
+        val1=valchty(rho.debut,ins->ARG1);val2=valchty(rho.debut,ins->ARG2);
+        if(val1 == val2){
+            res = 1;
+        }else{
+            res = 0;
+        }
+        inbilenvty(&rho,ins->RES,tboo);/* ajouter ins->RES dans *rho) */
+        affectty(rho.debut,ins->RES,tboo,res);
+        nins=ins->SUIV;
+        break;
+    case Lt:
+        val1=valchty(rho.debut,ins->ARG1);val2=valchty(rho.debut,ins->ARG2);
+        if(val1 < val2){
+            res = 1;
+        }else{
+            res = 0;
+        }
+        inbilenvty(&rho,ins->RES,tboo);/* ajouter ins->RES dans *rho) */
+        affectty(rho.debut,ins->RES,tboo,res);
+        nins=ins->SUIV;
+        break;
+	case Af:/* affectation var -> var    */
+      varType = type_res_op(op);
+	  val2=valchty(rho.debut,ins->ARG2);
+      if(type_eq(varType,tint)==1){
+        affectty(rho.debut,ins->ARG1,tint,val2);
+      }else if(type_eq(varType,tboo)==1){
+        affectty(rho.debut,ins->ARG1,tboo,val2);
+      }
+	  nins=ins->SUIV;
+	  break;
+	case Afc:/* affectation const -> var */
+      if(strcmp(ins->ARG1,"true")==0){
+          val1 = 1;
+      }else if(strcmp(ins->ARG1,"true")==0){
+          val1 = 0;
+      }else{
+        val1=atoi(ins->ARG1);
+      }
+	  inbilenvty(&rho,ins->RES,tint);
+	  affectty(rho.debut,ins->RES,tint,val1);
+	  nins=ins->SUIV;
+	  break;
+    case NewAr:
+        res=padrl;
+        ADR[res]=ptasl;
+        int tailleTab=atoi(ins->ARG2);
+        TAL[res]=tailleTab;
+        padrl++;ptasl+=tailleTab;
+        nins=ins->SUIV;
+        break;
+    case AfInd:
+        printf("\n");
+        char *nomTab=ins->ARG1;
+        printf("%s\n",nomTab);
+        int indiceTab=atoi(ins->ARG2);
+        break;
+	case Sk:/* skip                      */
+	  nins=ins->SUIV;
+	  break;
+	case Jp:/* saut inconditionnel       */
+	  nins=rechbq(ins->RES,c3a);
+	  break;
+	case Jz:/* saut si arg1 == 0        */
+	  val1=valchty(rho.debut,ins->ARG1);
+	   	  if (val1==0)
+	    {nins=rechbq(ins->RES,c3a);
+	    }
+	  else	    
+	    {nins=ins->SUIV;
+	    }
+	   break;
+	case St:/* stop                      */
+	  nins=NULL;
+	  break;
+	default:
+	  break;
+	};
+      return(nins);
+      }
+  else
+    return(NULL);
+}
+
+
+  
+/* semantique op a petits pas: c3a agit sur *rho (qui est modifie)         */
+void semop_ppq(BILENVTY rho, BILQUAD c3a)
+{QUAD qcour;
+  qcour=c3a.debut;
+  while (qcour != NULL)
+    qcour=semop_1ppq(rho,qcour,c3a);
+  return;}
+
 /* teste la traduction imp --> c3a*/
 void test_tradc3a(int n, NOE c)
-{/* char *etiq;int op;char *arg1; char *arg2;char *res; */
+{/* char *etiq;int op;char *arg1; char *arg2;char *res; 
   int i;QUAD qcour;
   BILQUAD bq,bqcour;
   bq.debut=NULL;bq.fin=NULL;
@@ -586,4 +715,7 @@ void test_tradc3a(int n, NOE c)
   bq=imp2quad(c);
   printf("le code a 3 adresses de la commande: \n");
   ecrire_bilquad(bq);
+  printf("on interprete le code a 3 adresses: \n");
+  semop_ppq(envrnt,bq);*/
 }
+
