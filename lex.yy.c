@@ -8,7 +8,11 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 6
+<<<<<<< HEAD
 #define YY_FLEX_SUBMINOR_VERSION 0
+=======
+#define YY_FLEX_SUBMINOR_VERSION 1
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -87,6 +91,7 @@ typedef unsigned int flex_uint32_t;
 
 #endif /* ! FLEXINT_H */
 
+<<<<<<< HEAD
 #ifdef __cplusplus
 
 /* The "const" storage-class-modifier is valid. */
@@ -106,6 +111,15 @@ typedef unsigned int flex_uint32_t;
 #define yyconst const
 #else
 #define yyconst
+=======
+/* TODO: this is always defined, so inline it */
+#define yyconst const
+
+#if defined(__GNUC__) && __GNUC__ >= 3
+#define yynoreturn __attribute__((__noreturn__))
+#else
+#define yynoreturn
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 #endif
 
 /* Returned upon end-of-file. */
@@ -166,7 +180,11 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 typedef size_t yy_size_t;
 #endif
 
+<<<<<<< HEAD
 extern yy_size_t yyleng;
+=======
+extern int yyleng;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 extern FILE *yyin, *yyout;
 
@@ -205,7 +223,11 @@ struct yy_buffer_state
 	/* Size of input buffer in bytes, not including room for EOB
 	 * characters.
 	 */
+<<<<<<< HEAD
 	yy_size_t yy_buf_size;
+=======
+	int yy_buf_size;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
@@ -233,7 +255,11 @@ struct yy_buffer_state
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
@@ -261,7 +287,11 @@ struct yy_buffer_state
 /* Stack of input buffers. */
 static size_t yy_buffer_stack_top = 0; /**< index of top of stack. */
 static size_t yy_buffer_stack_max = 0; /**< capacity of stack. */
+<<<<<<< HEAD
 static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
+=======
+static YY_BUFFER_STATE * yy_buffer_stack = NULL; /**< Stack as an array. */
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 /* We provide macros for accessing buffer states in case in the
  * future we want to put the buffer states in a more general
@@ -281,10 +311,17 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
 static int yy_n_chars;		/* number of characters read into yy_ch_buf */
+<<<<<<< HEAD
 yy_size_t yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = (char *) 0;
+=======
+int yyleng;
+
+/* Points to current character in buffer. */
+static char *yy_c_buf_p = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 static int yy_init = 0;		/* whether we need to initialize */
 static int yy_start = 0;	/* start state number */
 
@@ -309,7 +346,11 @@ static void yy_init_buffer (YY_BUFFER_STATE b,FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer (char *base,yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string (yyconst char *yy_str  );
+<<<<<<< HEAD
 YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,yy_size_t len  );
+=======
+YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,int len  );
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 void *yyalloc (yy_size_t  );
 void *yyrealloc (void *,yy_size_t  );
@@ -343,7 +384,11 @@ void yyfree (void *  );
 
 typedef unsigned char YY_CHAR;
 
+<<<<<<< HEAD
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
+=======
+FILE *yyin = NULL, *yyout = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 typedef int yy_state_type;
 
@@ -360,17 +405,25 @@ extern char *yytext;
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
+<<<<<<< HEAD
 #if defined(__GNUC__) && __GNUC__ >= 3
 __attribute__((__noreturn__))
 #endif
 static void yy_fatal_error (yyconst char msg[]  );
+=======
+static void yynoreturn yy_fatal_error (yyconst char* msg  );
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
+<<<<<<< HEAD
 	yyleng = (size_t) (yy_cp - yy_bp); \
+=======
+	yyleng = (int) (yy_cp - yy_bp); \
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -536,7 +589,11 @@ NE PAS  ecrire
  extern int ligcour;
 #define YY_NO_INPUT 1
   
+<<<<<<< HEAD
 #line 540 "lex.yy.c"
+=======
+#line 525 "lex.yy.c"
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 #define INITIAL 0
 #define COMMENT 1
@@ -576,7 +633,11 @@ FILE *yyget_out (void );
 
 void yyset_out  (FILE * _out_str  );
 
+<<<<<<< HEAD
 yy_size_t yyget_leng (void );
+=======
+			int yyget_leng (void );
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 char *yyget_text (void );
 
@@ -633,7 +694,11 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
+<<<<<<< HEAD
 #define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
+=======
+#define ECHO do { if (fwrite( yytext, (size_t) yyleng, 1, yyout )) {} } while (0)
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -657,7 +722,11 @@ static int input (void );
 	else \
 		{ \
 		errno=0; \
+<<<<<<< HEAD
 		while ( (result = fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
+=======
+		while ( (result = (int) fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 			{ \
 			if( errno != EINTR) \
 				{ \
@@ -755,7 +824,11 @@ YY_DECL
 	{
 #line 19 "pppascal.l"
 
+<<<<<<< HEAD
 #line 759 "lex.yy.c"
+=======
+#line 744 "lex.yy.c"
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -785,7 +858,11 @@ yy_match:
 				if ( yy_current_state >= 101 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
+<<<<<<< HEAD
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+=======
+			yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 			++yy_cp;
 			}
 		while ( yy_base[yy_current_state] != 115 );
@@ -1011,7 +1088,11 @@ YY_RULE_SETUP
 #line 89 "pppascal.l"
 ECHO;
 	YY_BREAK
+<<<<<<< HEAD
 #line 1015 "lex.yy.c"
+=======
+#line 1000 "lex.yy.c"
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 	yyterminate();
@@ -1157,7 +1238,11 @@ static int yy_get_next_buffer (void)
 {
     	char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
 	char *source = (yytext_ptr);
+<<<<<<< HEAD
 	yy_size_t number_to_move, i;
+=======
+	int number_to_move, i;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	int ret_val;
 
 	if ( (yy_c_buf_p) > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] )
@@ -1186,7 +1271,11 @@ static int yy_get_next_buffer (void)
 	/* Try to read more data. */
 
 	/* First move last chars to start of buffer. */
+<<<<<<< HEAD
 	number_to_move = (yy_size_t) ((yy_c_buf_p) - (yytext_ptr)) - 1;
+=======
+	number_to_move = (int) ((yy_c_buf_p) - (yytext_ptr) - 1);
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 	for ( i = 0; i < number_to_move; ++i )
 		*(dest++) = *(source++);
@@ -1199,7 +1288,11 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
+<<<<<<< HEAD
 			yy_size_t num_to_read =
+=======
+			int num_to_read =
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
@@ -1213,7 +1306,11 @@ static int yy_get_next_buffer (void)
 
 			if ( b->yy_is_our_buffer )
 				{
+<<<<<<< HEAD
 				yy_size_t new_size = b->yy_buf_size * 2;
+=======
+				int new_size = b->yy_buf_size * 2;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 				if ( new_size <= 0 )
 					b->yy_buf_size += b->yy_buf_size / 8;
@@ -1226,7 +1323,11 @@ static int yy_get_next_buffer (void)
 				}
 			else
 				/* Can't grow it, we don't own it. */
+<<<<<<< HEAD
 				b->yy_ch_buf = 0;
+=======
+				b->yy_ch_buf = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 			if ( ! b->yy_ch_buf )
 				YY_FATAL_ERROR(
@@ -1268,7 +1369,11 @@ static int yy_get_next_buffer (void)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
+<<<<<<< HEAD
 	if ((int) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+=======
+	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 		/* Extend the array by 50%, plus the number we really need. */
 		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
 		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size  );
@@ -1308,7 +1413,11 @@ static int yy_get_next_buffer (void)
 			if ( yy_current_state >= 101 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
+<<<<<<< HEAD
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+=======
+		yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 		}
 
 	return yy_current_state;
@@ -1336,7 +1445,11 @@ static int yy_get_next_buffer (void)
 		if ( yy_current_state >= 101 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
+<<<<<<< HEAD
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+=======
+	yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	yy_is_jam = (yy_current_state == 100);
 
 		return yy_is_jam ? 0 : yy_current_state;
@@ -1370,7 +1483,11 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
+<<<<<<< HEAD
 			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
+=======
+			int offset = (yy_c_buf_p) - (yytext_ptr);
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -1394,7 +1511,11 @@ static int yy_get_next_buffer (void)
 				case EOB_ACT_END_OF_FILE:
 					{
 					if ( yywrap( ) )
+<<<<<<< HEAD
 						return EOF;
+=======
+						return 0;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
@@ -1642,7 +1763,11 @@ void yypop_buffer_state (void)
  */
 static void yyensure_buffer_stack (void)
 {
+<<<<<<< HEAD
 	yy_size_t num_to_alloc;
+=======
+	int num_to_alloc;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
     
 	if (!(yy_buffer_stack)) {
 
@@ -1650,15 +1775,25 @@ static void yyensure_buffer_stack (void)
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
+<<<<<<< HEAD
 		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+=======
+      num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
 		if ( ! (yy_buffer_stack) )
 			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
+<<<<<<< HEAD
 								  
 		memset((yy_buffer_stack), 0, num_to_alloc * sizeof(struct yy_buffer_state*));
 				
+=======
+
+		memset((yy_buffer_stack), 0, num_to_alloc * sizeof(struct yy_buffer_state*));
+
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 		(yy_buffer_stack_max) = num_to_alloc;
 		(yy_buffer_stack_top) = 0;
 		return;
@@ -1687,7 +1822,11 @@ static void yyensure_buffer_stack (void)
  * @param base the character buffer
  * @param size the size in bytes of the character buffer
  * 
+<<<<<<< HEAD
  * @return the newly allocated buffer state object. 
+=======
+ * @return the newly allocated buffer state object.
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
  */
 YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 {
@@ -1697,7 +1836,11 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
 	     base[size-1] != YY_END_OF_BUFFER_CHAR )
 		/* They forgot to leave room for the EOB's. */
+<<<<<<< HEAD
 		return 0;
+=======
+		return NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 
 	b = (YY_BUFFER_STATE) yyalloc(sizeof( struct yy_buffer_state )  );
 	if ( ! b )
@@ -1706,7 +1849,11 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 	b->yy_buf_size = size - 2;	/* "- 2" to take care of EOB's */
 	b->yy_buf_pos = b->yy_ch_buf = base;
 	b->yy_is_our_buffer = 0;
+<<<<<<< HEAD
 	b->yy_input_file = 0;
+=======
+	b->yy_input_file = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	b->yy_n_chars = b->yy_buf_size;
 	b->yy_is_interactive = 0;
 	b->yy_at_bol = 1;
@@ -1729,7 +1876,11 @@ YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
 {
     
+<<<<<<< HEAD
 	return yy_scan_bytes(yystr,strlen(yystr) );
+=======
+	return yy_scan_bytes(yystr,(int) strlen(yystr) );
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 }
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
@@ -1739,15 +1890,26 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
  * 
  * @return the newly allocated buffer state object.
  */
+<<<<<<< HEAD
 YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )
+=======
+YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
+<<<<<<< HEAD
 	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
+=======
+	int i;
+    
+	/* Get memory for full buffer, including space for trailing EOB's. */
+	n = (yy_size_t) (_yybytes_len + 2);
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 	buf = (char *) yyalloc(n  );
 	if ( ! buf )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_bytes()" );
@@ -1773,7 +1935,11 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 #define YY_EXIT_FAILURE 2
 #endif
 
+<<<<<<< HEAD
 static void yy_fatal_error (yyconst char* msg )
+=======
+static void yynoreturn yy_fatal_error (yyconst char* msg )
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 {
 			(void) fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
@@ -1803,7 +1969,11 @@ static void yy_fatal_error (yyconst char* msg )
  */
 int yyget_lineno  (void)
 {
+<<<<<<< HEAD
         
+=======
+    
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
     return yylineno;
 }
 
@@ -1826,7 +1996,11 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
+<<<<<<< HEAD
 yy_size_t yyget_leng  (void)
+=======
+int yyget_leng  (void)
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 {
         return yyleng;
 }
@@ -1882,10 +2056,17 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+<<<<<<< HEAD
     (yy_buffer_stack) = 0;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
     (yy_c_buf_p) = (char *) 0;
+=======
+    (yy_buffer_stack) = NULL;
+    (yy_buffer_stack_top) = 0;
+    (yy_buffer_stack_max) = 0;
+    (yy_c_buf_p) = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
     (yy_init) = 0;
     (yy_start) = 0;
 
@@ -1894,8 +2075,13 @@ static int yy_init_globals (void)
     yyin = stdin;
     yyout = stdout;
 #else
+<<<<<<< HEAD
     yyin = (FILE *) 0;
     yyout = (FILE *) 0;
+=======
+    yyin = NULL;
+    yyout = NULL;
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 #endif
 
     /* For future reference: Set errno on error, since we are called by
@@ -1953,7 +2139,11 @@ static int yy_flex_strlen (yyconst char * s )
 
 void *yyalloc (yy_size_t  size )
 {
+<<<<<<< HEAD
 			return (void *) malloc( size );
+=======
+			return malloc(size);
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 }
 
 void *yyrealloc  (void * ptr, yy_size_t  size )
@@ -1966,7 +2156,11 @@ void *yyrealloc  (void * ptr, yy_size_t  size )
 	 * any pointer type to void*, and deal with argument conversions
 	 * as though doing an assignment.
 	 */
+<<<<<<< HEAD
 	return (void *) realloc( (char *) ptr, size );
+=======
+	return realloc(ptr, size);
+>>>>>>> 2f8cc42c131e28bbdd5d7cea1006fe7bd062627f
 }
 
 void yyfree (void * ptr )
